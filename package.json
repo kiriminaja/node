@@ -1,0 +1,30 @@
+{
+  "name": "kiriminaja-node",
+  "version": "0.0.1-alpha",
+  "description": "KiriminAja Node SDK",
+  "main": "index.js",
+  "scripts": {
+    "test": "mocha test/**/*.test.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/kiriminaja/node.git"
+  },
+  "keywords": [
+    "node",
+    "sdk",
+    "api",
+    "client",
+    "kiriminaja"
+  ],
+  "author": "Yanuar Aditia <yanuaraditia@outlook.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/kiriminaja/node/issues"
+  },
+  "homepage": "https://github.com/kiriminaja/node#readme",
+  "dependencies": {
+    "node-fetch": "^3.3.0",
+    "validatorjs": "^3.22.1"
+  }
+}
