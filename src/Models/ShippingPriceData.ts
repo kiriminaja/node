@@ -1,8 +1,8 @@
-export interface ShippingPriceData {
+export type ShippingPriceData = {
     origin?: number
     destination?: number
     weight: number
     insurance?: number
     item_value?: number
-    courier?: string[]
+    courier?: string | string[]
 }

@@ -1,19 +1,13 @@
-class ServiceResponse {
-    private readonly status?: boolean = false
-    private readonly message?: string = 'Unknown Response'
-    private readonly data?: object
+import {ServiceResponseContract} from "./ServiceResponseContract";
 
-    constructor(status: boolean, message: string, data?: object) {
-        this.status = status
-        this.message = message
-        this.data = data
+class ServiceResponse {
+    private readonly response = {} as ServiceResponseContract
+
+    constructor(response: ServiceResponseContract) {
+        this.response = response
     }
 
     call(): object {
-        return {
-            status: this.status,
-            message: this.message,
-            data: this.data
-        }
+        return this.response
     }
 }

@@ -1,3 +1,5 @@
-interface ServiceContract {
-    call(): object
+import {ServiceResponseContract} from "../Responses/ServiceResponseContract";
+
+export interface ServiceContract {
+    call(): ServiceResponseContract
 }

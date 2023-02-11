@@ -1,4 +1,4 @@
-export interface ShippingFullPriceData {
+export type ShippingFullPriceData = {
     origin?: number
     destination?: number
     weight?: number

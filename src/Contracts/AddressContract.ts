@@ -1,6 +1,9 @@
-interface AddressContract {
+export interface AddressContract {
     province()
-    cities()
-    districts()
-    districtsByName()
+
+    cities(provinceId: bigint)
+
+    districts(cityId: bigint)
+
+    districtsByName(keyword: string)
 }
