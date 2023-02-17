@@ -4,12 +4,16 @@ export class KiriminAjaConfig {
     private static currentMode: string
     private static apiKey: string
 
+    /**
+     * @return any
+     */
     static mode(): any {
         return this.currentMode ?? this.Staging
     }
 
     /**
-     * @param mode
+     * @param mode: string
+     * @return this
      */
     static setMode(mode: string) {
         this.currentMode = mode
@@ -17,7 +21,8 @@ export class KiriminAjaConfig {
     }
 
     /**
-     * @param key
+     * @param key: string
+     * @return this
      */
     static setApiKey(key: string) {
         this.apiKey = key
@@ -25,7 +30,7 @@ export class KiriminAjaConfig {
     }
 
     /**
-     * @return any
+     * @return ?any
      */
     static getApiKey(): any {
         return this.apiKey ?? null

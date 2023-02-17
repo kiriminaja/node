@@ -1,8 +1,9 @@
 import {KiriminAjaConfig} from "../Config/KiriminAjaConfig";
 
 class ApiOptions {
-    private method: any
-
+    /**
+     * @return string
+     */
     static baseURL(): string {
         switch (KiriminAjaConfig.mode()) {
             case KiriminAjaConfig.Staging:
@@ -14,6 +15,9 @@ class ApiOptions {
         }
     }
 
+    /**
+     * @return object
+     */
     static getHeaders(): object {
         return {
             "Content-Type": "application/json",
