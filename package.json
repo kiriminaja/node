@@ -1,6 +1,6 @@
 {
   "name": "kiriminaja-node",
-  "version": "0.0.1-alpha",
+  "version": "0.0.1-canary",
   "description": "KiriminAja Node SDK",
   "main": "index.js",
   "scripts": {
