@@ -1,5 +1,7 @@
 import {ShippingPriceData} from "../Models/shipping-price-data";
 import {ShippingPriceDataInstant} from "../Models/shipping-price-data-instant";
+import {RequestPickupData} from "../Models/request-pickup-data";
+import {RequestPickupDataInstant} from "../Models/request-pickup-data-instant";
 export declare interface KiriminAjaContract {
     getCity(provinceId: bigint)
     getDistrictByName(keyword: string)
@@ -9,14 +11,9 @@ export declare interface KiriminAjaContract {
     setCallback(url: string)
     getPrice(payload: ShippingPriceData)
     getPriceInstant(payload: ShippingPriceDataInstant)
+    requestPickup(payload: RequestPickupData)
+    requestPickupInstant(payload: RequestPickupDataInstant)
     getSchedules()
-
-    //Incomplete
-    fullShippingPrice()
-    requestPickup()
-    requestPickupInstant()
-
-    // Done
     getPayment(paymentId: string, isInstant?: boolean)
     cancelShipment(referenceNo: string, reason: string, isInstant?: boolean)
     getTracking(orderId: string)
