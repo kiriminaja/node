@@ -27,7 +27,7 @@ const apiKey = getCache(CACHE_TOKEN)
  * @return {{mode: mixed, apiKey: mixed, setMode: setMode, setApiTokenKey: setApiTokenKey}}
  * @constructor
  */
-export const KiriminAjaConfig = () => {
+export const KiriminajaConfig = () => {
     return {
         setApiTokenKey,
         setMode,
@@ -35,4 +35,4 @@ export const KiriminAjaConfig = () => {
         apiKey
     }
 }
-module.exports = KiriminAjaConfig
+module.exports = KiriminajaConfig
