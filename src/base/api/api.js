@@ -58,4 +58,49 @@ class Api {
             "Authorization": `Bearer ` + KiriminajaConfig.apiKey().getKey()
         }
     }
+
+    /**
+     * @param {*} data
+     * @return {{headers: *, method: string}|{headers: *}}
+     */
+    static dataOption(data) {
+        switch (this.constructor.prototype.method) {
+            case "GET":
+                return {
+                    headers: this.constructor.prototype.getHeaders()
+                }
+            default:
+                return {
+                    method: "POST",
+                    headers: this.constructor.prototype.getHeaders()
+                }
+        }
+    }
+
+    /**
+     * @param {string} endpoint
+     * @return {string}
+     */
+    url(endpoint) {
+        return (this.constructor.prototype.isUseInstant() ? this.constructor.baseURLInstant() : this.constructor.baseURL()) + endpoint
+    }
+
+    /**
+     * @param {string} method
+     * @param {string} endpoint
+     * @param {*} data
+     * @return {Promise<(boolean|string)[]>}
+     */
+    async request(method, endpoint, data) {
+        this.method = method
+        let result = [false, "Unable to call"]
+        await fetch(this.constructor.url(endpoint), this.constructor.dataOption(data))
+            .then((response) => {
+                result = [true, response.json()]
+            }).catch((err) => {
+                result = [false, err.message]
+            })
+
+        return result
+    }
 }
