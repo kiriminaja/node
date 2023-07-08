@@ -33,3 +33,4 @@ export class RequestPickupData extends ModelBase {
     platform_name: string | null;
 }
 import { ModelBase } from "../base/model-base";
+import { PackageData } from "./package-data";

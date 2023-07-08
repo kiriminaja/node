@@ -1,7 +1,8 @@
 import {ServiceBase} from "../../base/service-base";
 import {ShippingRepository} from "../../repositories/shipping-repository";
+import {ServiceResponse} from "../../responses/service-response";
 
-export class CancelShippingInstantService extends ServiceBase {
+export class CancelShippingService extends ServiceBase {
     /**
      * @type {ShippingRepository}
      */

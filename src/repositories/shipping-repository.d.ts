@@ -31,3 +31,5 @@ export class ShippingRepository extends RepositoryBase {
     tracking(orderId: string): Promise<(boolean | string)[]>;
 }
 import { RepositoryBase } from "../base/repository-base";
+import { ShippingPriceData } from "../models/shipping-price-data";
+import { RequestPickupData } from "../models/request-pickup-data";

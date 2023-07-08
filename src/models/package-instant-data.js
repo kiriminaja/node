@@ -1,6 +1,6 @@
 import {ModelBase} from "../base/model-base";
 
-class PackageInstantData extends ModelBase {
+export class PackageInstantData extends ModelBase {
     /**
      * @type {string}
      */

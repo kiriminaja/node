@@ -1,7 +1,8 @@
 import {ServiceBase} from "../../base/service-base";
+import {ServiceResponse} from "../../responses/service-response";
 import {ShippingInstantRepository} from "../../repositories/shipping-instant-repository";
 
-export class PriceInstantService extends ServiceBase {
+export class RequestPickupInstantService extends ServiceBase {
     /**
      * @type {ShippingInstantRepository}
      */
@@ -13,15 +14,11 @@ export class PriceInstantService extends ServiceBase {
 
     /**
      * @param {RequestPickupInstantData} data
-     * @param {PackageInstantData} additionalPackages
      */
-    constructor(data, ...additionalPackages) {
+    constructor(data) {
         super(data);
 
         this.data = data
-        additionalPackages.forEach((pkg) => {
-            this.constructor.prototype.addPackage(pkg)
-        })
     }
 
     /**
@@ -40,7 +37,9 @@ export class PriceInstantService extends ServiceBase {
             if (!status) {
                 return this.constructor.error(null, message)
             }
-            return this.constructor.success(result, message)
+            return this.constructor.success({
+                payment: result.payment
+            }, message)
         } catch (err) {
             return this.constructor.error(null, err.message)
         }

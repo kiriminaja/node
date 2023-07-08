@@ -1,4 +1,5 @@
 import {ServiceBase} from "../../base/service-base";
+import {ServiceResponse} from "../../responses/service-response";
 import {AddressRepository} from "../../repositories/address-repository";
 
 export class CityService extends ServiceBase {

@@ -1,4 +1,6 @@
 import {RepositoryBase} from "../base/repository-base";
+import {ShippingPriceData} from "../models/shipping-price-data";
+import {RequestPickupData} from "../models/request-pickup-data";
 
 export class ShippingRepository extends RepositoryBase {
     /**

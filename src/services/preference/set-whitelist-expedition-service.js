@@ -1,5 +1,6 @@
 import {ServiceBase} from "../../base/service-base";
 import {PreferenceRepository} from "../../repositories/preference-repository";
+import {ServiceResponse} from "../../responses/service-response";
 
 export class SetWhitelistExpeditionService extends ServiceBase {
     preferenceRepository = new PreferenceRepository()

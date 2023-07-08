@@ -1,4 +1,5 @@
 import {ServiceBase} from "../../base/service-base";
+import {ServiceResponse} from "../../responses/service-response";
 import {PreferenceRepository} from "../../repositories/preference-repository";
 
 export class SetCallbackService extends ServiceBase {

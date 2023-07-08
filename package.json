@@ -6,7 +6,7 @@
     "types": "index.d.ts",
     "scripts": {
         "test": "mocha",
-        "convert": "npx -p typescript tsc src/**/*.js --declaration --allowJs --emitDeclarationOnly --outDir types\n"
+        "build": "npx -p typescript tsc src/**/*.js src/*.js --declaration --allowJs --emitDeclarationOnly --outDir src\n"
     },
     "repository": {
         "type": "git",

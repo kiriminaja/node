@@ -25,3 +25,4 @@ export class RequestPickupInstantData extends ModelBase {
     getMapped(): any | null;
 }
 import { ModelBase } from "../base/model-base";
+import { PackageInstantData } from "./package-instant-data";

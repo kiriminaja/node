@@ -1,5 +1,6 @@
 import {ServiceBase} from "../../base/service-base";
 import {ShippingInstantRepository} from "../../repositories/shipping-instant-repository";
+import {ServiceResponse} from "../../responses/service-response";
 
 export class FindNewDriverService extends ServiceBase {
     /**

@@ -1,4 +1,6 @@
 import {_modeApiKey} from "./cache/_mode-api-key";
+import {_cacheMode} from "./cache/_cache-mode";
+import {_cacheApiKey} from "./cache/_cache-api-key";
 
 export class KiriminajaConfig {
     /**

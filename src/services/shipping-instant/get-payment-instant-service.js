@@ -1,4 +1,5 @@
 import {ServiceBase} from "../../base/service-base";
+import {ServiceResponse} from "../../responses/service-response";
 import {ShippingInstantRepository} from "../../repositories/shipping-instant-repository";
 
 export class GetPaymentInstantService extends ServiceBase {

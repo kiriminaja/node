@@ -1,4 +1,5 @@
 import {ModelBase} from "../base/model-base";
+import {PackageInstantData} from "./package-instant-data";
 
 export class RequestPickupInstantData extends ModelBase {
     /**
