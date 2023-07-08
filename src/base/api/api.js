@@ -92,20 +92,27 @@ export class Api {
         return (this.constructor.prototype.isUseInstant() ? this.constructor.baseURLInstant() : this.constructor.baseURL()) + endpoint
     }
 
+
     /**
      * @param {string} method
      * @param {string} endpoint
      * @param {*} data
-     * @return {Promise<(boolean|string)[]>}
+     * @return {Promise<{result: ?string, message: string, status: boolean}>}
      */
     async request(method, endpoint, data) {
         this.method = method
-        let result = [false, "Unable to call"]
+        let result = {
+            status: false,
+            message: "Unable to call",
+            result: null
+        }
         await fetch(this.constructor.url(endpoint), this.constructor.dataOption(data))
             .then((response) => {
-                result = [true, response.json()]
+                result.status = true
+                result.message = "Success"
+                result.result = response.json()
             }).catch((err) => {
-                result = [false, err.message]
+                result.message = err.message
             })
 
         return result

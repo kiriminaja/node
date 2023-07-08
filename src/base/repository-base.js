@@ -1,11 +1,6 @@
 import {Api} from "./api/api";
 
 export class RepositoryBase {
-    /**
-     * @type {boolean}
-     */
-    useInstant = false
-
     constructor() {
         if (this.constructor === RepositoryBase) {
             throw new Error("Abstract classes can't be instantiated.");
