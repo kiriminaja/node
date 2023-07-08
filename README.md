@@ -6,8 +6,8 @@
 
 | Language   | Coverage | 
 |------------|----------|
-| TypeScript | 100%     |
-| JavaScript | 0%       |
+| TypeScript | 30%      |
+| JavaScript | 75%      |
 
 [npm-version-src]: https://img.shields.io/npm/v/kiriminaja-node/latest.svg?style=flat&colorA=18181B&colorB=28CF8D
 [npm-version-href]: https://npmjs.com/package/kiriminaja-node
