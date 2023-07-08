@@ -5,6 +5,7 @@
     "main": "index.js",
     "types": "index.d.ts",
     "scripts": {
+        "test": "mocha",
         "convert": "npx -p typescript tsc src/**/*.js --declaration --allowJs --emitDeclarationOnly --outDir types\n"
     },
     "repository": {
@@ -29,6 +30,7 @@
         "node-cache": "^5.1.2"
     },
     "devDependencies": {
-        "@types/node": "^18.13.0"
+        "@types/node": "^18.13.0",
+        "mocha": "^10.2.0"
     }
 }
