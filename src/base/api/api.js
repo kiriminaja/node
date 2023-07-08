@@ -1,9 +1,16 @@
 import {KiriminajaConfig} from "../config/kiriminaja-config";
 import {Mode} from "../config/cache/mode";
 
-class Api {
+export class Api {
     method = "GET"
     useInstant = false
+
+    /**
+     * @param {boolean} useInstant
+     */
+    constructor(useInstant = false) {
+        this.useInstant = useInstant
+    }
 
     /**
      * @return {boolean}
@@ -103,4 +110,41 @@ class Api {
 
         return result
     }
+
+    /**
+     * @param {string} endpoint
+     * @param {*} data
+     * @return {Promise<(boolean|string)[]>}
+     */
+    get(endpoint, data = null) {
+        return this.request("GET", endpoint, data)
+    }
+
+    /**
+     * @param {string} endpoint
+     * @param {*} data
+     * @return {Promise<(boolean|string)[]>}
+     */
+    post(endpoint, data) {
+        return this.request("POST", endpoint, data)
+    }
+
+    /**
+     * @param {string} endpoint
+     * @param {*} data
+     * @return {Promise<(boolean|string)[]>}
+     */
+    put(endpoint, data) {
+        return this.request("PUT", endpoint, data)
+    }
+
+    /**
+     * @param {string} endpoint
+     * @param {*} data
+     * @return {Promise<(boolean|string)[]>}
+     */
+    delete(endpoint, data = null) {
+        return this.request("PUT", endpoint, data)
+    }
+
 }
