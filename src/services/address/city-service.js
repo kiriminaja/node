@@ -15,7 +15,7 @@ export class CityService extends ServiceBase {
      * @param {string|number} provinceId
      */
     constructor(provinceId) {
-        super();
+        super(provinceId);
         this.provinceId = provinceId
     }
 

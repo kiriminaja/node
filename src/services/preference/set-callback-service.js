@@ -1,23 +1,22 @@
 import {ServiceBase} from "../../base/service-base";
-import {AddressRepository} from "../../repositories/address-repository";
+import {PreferenceRepository} from "../../repositories/preference-repository";
 
-export class DistrictService extends ServiceBase {
+export class SetCallbackService extends ServiceBase {
     /**
-     * @type {AddressRepository}
+     * @type {PreferenceRepository}
      */
-    addressRepository = new AddressRepository()
+    preferenceRepository = new PreferenceRepository()
     /**
-     * @type {number}
+     * @type {string}
      */
-    cityId
+    url
 
     /**
-     * @param {number} cityId
+     * @param {string} url
      */
-    constructor(cityId) {
-        super(cityId);
-
-        this.cityId = cityId
+    constructor(url) {
+        super();
+        this.url = url
     }
 
     /**
@@ -25,7 +24,7 @@ export class DistrictService extends ServiceBase {
      */
     call() {
         try {
-            const {status, message, result} = this.addressRepository.districts(this.cityId)
+            const {status, message, result} = this.preferenceRepository.setCallback(this.url)
             if (!status) {
                 return this.constructor.error(null, message)
             }

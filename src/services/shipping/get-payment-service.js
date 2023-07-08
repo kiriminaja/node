@@ -1,23 +1,24 @@
 import {ServiceBase} from "../../base/service-base";
-import {AddressRepository} from "../../repositories/address-repository";
+import {ShippingRepository} from "../../repositories/shipping-repository";
 
-export class DistrictByNameService extends ServiceBase {
+export class GetPaymentInstantService extends ServiceBase {
     /**
-     * @type {AddressRepository}
+     * @type {ShippingRepository}
      */
-    addressRepository = new AddressRepository()
+    shippingRepository = new ShippingRepository()
+
     /**
      * @type {string}
      */
-    keyword
+    paymentId
 
     /**
-     * @param {string} keyword
+     * @params {string} paymentId
      */
-    constructor(keyword) {
-        super(keyword);
+    constructor(paymentId) {
+        super(paymentId);
 
-        this.keyword = keyword
+        this.paymentId = paymentId
     }
 
     /**
@@ -25,7 +26,7 @@ export class DistrictByNameService extends ServiceBase {
      */
     call() {
         try {
-            const {status, message, result} = this.addressRepository.districtByName(this.keyword)
+            const {status, message, result} = this.shippingRepository.payment(this.paymentId)
             if (!status) {
                 return this.constructor.error(null, message)
             }
@@ -34,4 +35,5 @@ export class DistrictByNameService extends ServiceBase {
             return this.constructor.error(null, err.message)
         }
     }
+
 }

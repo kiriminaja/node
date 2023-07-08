@@ -1,31 +1,32 @@
 import {ServiceBase} from "../../base/service-base";
-import {AddressRepository} from "../../repositories/address-repository";
+import {ShippingRepository} from "../../repositories/shipping-repository";
 
-export class DistrictService extends ServiceBase {
+export class PriceService extends ServiceBase {
     /**
-     * @type {AddressRepository}
+     * @type {ShippingRepository}
      */
-    addressRepository = new AddressRepository()
-    /**
-     * @type {number}
-     */
-    cityId
+    shippingRepository = new ShippingRepository()
 
     /**
-     * @param {number} cityId
+     * @type {ShippingPriceData}
      */
-    constructor(cityId) {
-        super(cityId);
+    data
 
-        this.cityId = cityId
+    /**
+     * @param {ShippingPriceData} data
+     */
+    constructor(data) {
+        super(data);
+        this.data = data
     }
+
 
     /**
      * @return {ServiceResponse}
      */
     call() {
         try {
-            const {status, message, result} = this.addressRepository.districts(this.cityId)
+            const {status, message, result} = this.shippingRepository.price(this.data)
             if (!status) {
                 return this.constructor.error(null, message)
             }
