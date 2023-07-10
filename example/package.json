@@ -1,0 +1,13 @@
+{
+  "name": "example",
+  "version": "1.0.0",
+  "description": "KiriminAja Node Example",
+  "main": "index.js",
+  "repository": "https://github.com/kiriminaja/node",
+  "author": "kiriminaja",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "kiriminaja-node": "^0.0.2-canary"
+  }
+}
