@@ -5,12 +5,17 @@ export type FetchLike = (
     init?: Parameters<typeof fetch>[1],
 ) => ReturnType<typeof fetch>;
 
+export type HeadersInitLike =
+    | Record<string, string>
+    | Array<[string, string]>
+    | Parameters<typeof fetch>[1];
+
 export type InitOptions = {
     env?: KAEnv;
     baseUrl?: string;
     apiKey?: string;
     fetch?: FetchLike;
-    headers?: Bun.HeadersInit;
+    headers?: HeadersInitLike;
 };
 
 export type ClientConfig = {
@@ -18,7 +23,7 @@ export type ClientConfig = {
     baseUrl: string;
     apiKey?: string;
     fetch: FetchLike;
-    headers?: Bun.HeadersInit;
+    headers?: HeadersInitLike;
 };
 
 let singletonConfig: ClientConfig | undefined;

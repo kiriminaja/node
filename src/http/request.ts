@@ -38,7 +38,7 @@ export const requestJson = async <T>(
     if (config.apiKey) headers.set("Authorization", `Bearer ${config.apiKey}`);
 
     if (config.headers) {
-        new Headers(config.headers).forEach((value, key) => {
+        new Headers(config.headers as any).forEach((value, key) => {
             headers.set(key, value);
         });
     }
