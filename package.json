@@ -1,10 +1,15 @@
 {
-    "name": "node",
+    "name": "kiriminaja",
     "module": "src/index.ts",
     "type": "module",
     "private": true,
+    "scripts": {
+        "test": "bun test",
+        "typecheck": "tsc --noEmit"
+    },
     "devDependencies": {
-        "@types/bun": "^1.3.9"
+        "@types/bun": "^1.3.9",
+        "typescript": "^5"
     },
     "peerDependencies": {
         "typescript": "^5"
