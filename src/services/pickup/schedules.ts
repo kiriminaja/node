@@ -1,5 +1,5 @@
-import type { KAResponse } from "../../types/api-response";
+import type { PickupSchedulesResponse } from "../../types/pickup.responses";
 import { postJson } from "../../http/request";
 
-export const getPickupSchedules = <T = unknown>() =>
-    postJson<KAResponse<T>>("/api/mitra/v2/schedules");
+export const getPickupSchedules = () =>
+    postJson<PickupSchedulesResponse>("/api/mitra/v2/schedules");

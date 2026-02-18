@@ -1,9 +1,8 @@
-import type { City } from "../../types/coverage-area";
-import type { KAResponse } from "../../types/api-response";
+import type { CityListResponse } from "../../types/coverage-area.responses";
 import { postJson } from "../../http/request";
 
 export const getCities = (provinsiId: number) => {
-    return postJson<KAResponse<City[]>>("/api/mitra/city", {
+    return postJson<CityListResponse>("/api/mitra/city", {
         provinsi_id: provinsiId,
     });
 };

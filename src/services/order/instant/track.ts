@@ -1,6 +1,7 @@
-import type { KAResponse } from "../../../types/api-response";
+import type { InstantTrackingResponse } from "../../../types/order.responses";
 import { getJson } from "../../../http/request";
 
-export const trackInstantOrder = <T = unknown>(orderId: string) => {
-    return getJson<KAResponse<T>>(`/api/mitra/v4/instant/tracking/${orderId}`);
-};
+export const trackInstantOrder = (orderId: string) =>
+    getJson<InstantTrackingResponse>(
+        `/api/mitra/v4/instant/tracking/${orderId}`,
+    );

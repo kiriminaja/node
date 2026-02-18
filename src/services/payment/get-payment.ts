@@ -1,7 +1,7 @@
-import type { KAResponse } from "../../types/api-response";
+import type { GetPaymentResponse } from "../../types/payment.responses";
 import { postJson } from "../../http/request";
 
-export const getPayment = <T = unknown>(paymentId: string) =>
-    postJson<KAResponse<T>>("/api/mitra/v2/get_payment", {
+export const getPayment = (paymentId: string) =>
+    postJson<GetPaymentResponse>("/api/mitra/v2/get_payment", {
         payment_id: paymentId,
     });

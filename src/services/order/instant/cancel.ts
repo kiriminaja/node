@@ -1,8 +1,7 @@
-import type { KAResponse } from "../../../types/api-response";
+import type { CancelInstantOrderResponse } from "../../../types/order.responses";
 import { deleteJson } from "../../../http/request";
 
-export const cancelInstantOrder = <T = unknown>(orderId: string) => {
-    return deleteJson<KAResponse<T>>(
+export const cancelInstantOrder = (orderId: string) =>
+    deleteJson<CancelInstantOrderResponse>(
         `/api/mitra/v4/instant/pickup/void/${orderId}`,
     );
-};

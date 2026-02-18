@@ -1,9 +1,8 @@
-import type { District } from "../../types/coverage-area";
-import type { KAResponse } from "../../types/api-response";
+import type { DistrictListResponse } from "../../types/coverage-area.responses";
 import { postJson } from "../../http/request";
 
 export const getDistricts = (kabupatenId: number) => {
-    return postJson<KAResponse<District[]>>("/api/mitra/kecamatan", {
+    return postJson<DistrictListResponse>("/api/mitra/kecamatan", {
         kabupaten_id: kabupatenId,
     });
 };

@@ -1,10 +1,15 @@
 import { KA_ENV_URL, KAEnv } from "./api";
 
+export type FetchLike = (
+    input: Parameters<typeof fetch>[0],
+    init?: Parameters<typeof fetch>[1],
+) => ReturnType<typeof fetch>;
+
 export type InitOptions = {
     env?: KAEnv;
     baseUrl?: string;
     apiKey?: string;
-    fetch?: typeof fetch;
+    fetch?: FetchLike;
     headers?: Bun.HeadersInit;
 };
 
@@ -12,7 +17,7 @@ export type ClientConfig = {
     env: KAEnv;
     baseUrl: string;
     apiKey?: string;
-    fetch: typeof fetch;
+    fetch: FetchLike;
     headers?: Bun.HeadersInit;
 };
 

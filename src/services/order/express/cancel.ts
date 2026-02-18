@@ -1,15 +1,11 @@
-import type { KAResponse } from "../../../types/api-response";
+import type { CancelExpressOrderResponse } from "../../../types/order.responses";
 import { requestJson } from "../../../http/request";
 
-export const cancelExpressOrder = <T = unknown>(
-    awb: string,
-    reason: string,
-) => {
-    return requestJson<KAResponse<T>>("/api/mitra/v3/cancel_shipment", {
+export const cancelExpressOrder = (awb: string, reason: string) =>
+    requestJson<CancelExpressOrderResponse>("/api/mitra/v3/cancel_shipment", {
         method: "POST",
         query: {
             awb,
             reason,
         },
     });
-};

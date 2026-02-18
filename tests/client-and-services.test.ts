@@ -1,5 +1,7 @@
 import { describe, expect, it } from "bun:test";
 import KiriminAja, { KAEnv } from "../src/index";
+import type { FetchLike } from "../src/config/client";
+import { KA_ENV_URL } from "../src/config/api";
 
 type FetchCall = {
     input: string | URL | Request;
@@ -8,7 +10,7 @@ type FetchCall = {
 
 const createMockFetch = () => {
     const calls: FetchCall[] = [];
-    const fetchMock: typeof fetch = async (input, init) => {
+    const fetchMock: FetchLike = async (input, init) => {
         calls.push({ input, init });
         return new Response(JSON.stringify({ status: true }), {
             status: 200,
@@ -26,6 +28,28 @@ const getHeader = (init: RequestInit | undefined, name: string) => {
 };
 
 describe("KiriminAja singleton init + services", () => {
+    it("uses sandbox baseUrl when env=SANDBOX", async () => {
+        const { fetchMock, calls } = createMockFetch();
+        KiriminAja.init({ env: KAEnv.SANDBOX, fetch: fetchMock });
+
+        await KiriminAja.address.provinces();
+
+        expect(calls.length).toBe(1);
+        expect(String(calls[0]!.input)).toStartWith(KA_ENV_URL[KAEnv.SANDBOX]);
+    });
+
+    it("uses production baseUrl when env=PRODUCTION", async () => {
+        const { fetchMock, calls } = createMockFetch();
+        KiriminAja.init({ env: KAEnv.PRODUCTION, fetch: fetchMock });
+
+        await KiriminAja.address.provinces();
+
+        expect(calls.length).toBe(1);
+        expect(String(calls[0]!.input)).toStartWith(
+            KA_ENV_URL[KAEnv.PRODUCTION],
+        );
+    });
+
     it("adds Bearer token from init(apiKey)", async () => {
         const { fetchMock, calls } = createMockFetch();
         KiriminAja.init({

@@ -1,6 +1,6 @@
-export type BaseResponse<T> = {
+export type BaseResponse = {
     status: boolean;
     method: string;
     text: string;
-    datas: T;
+    code?: string | number | null;
 };

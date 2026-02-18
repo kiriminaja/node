@@ -1,9 +1,8 @@
-import type { KAResponse } from "../../../types/api-response";
+import type { CreateInstantPickupResponse } from "../../../types/order.responses";
 import { postJson } from "../../../http/request";
 
-export const createInstantPickup = <T = unknown>(payload: unknown) => {
-    return postJson<KAResponse<T>>(
+export const createInstantPickup = (payload: unknown) =>
+    postJson<CreateInstantPickupResponse>(
         "/api/mitra/v4/instant/pickup/request",
         payload,
     );
-};

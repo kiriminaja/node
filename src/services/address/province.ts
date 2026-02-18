@@ -1,7 +1,6 @@
-import type { Province } from "../../types/region";
-import type { KAResponse } from "../../types/api-response";
+import type { ProvinceListResponse } from "../../types/coverage-area.responses";
 import { postJson } from "../../http/request";
 
 export const getProvinces = () => {
-    return postJson<KAResponse<Province[]>>("/api/mitra/province");
+    return postJson<ProvinceListResponse>("/api/mitra/province");
 };
