@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.1.2
+
+[compare changes](https://github.com/kiriminaja/node/compare/v0.1.1...v0.1.2)
+
+### 🚀 Enhancements
+
+- Update package json as public repo ([b98b1fc](https://github.com/kiriminaja/node/commit/b98b1fc))
+
+### ❤️ Contributors
+
+- Yanuar Aditia ([@ngalor](https://github.com/ngalor))
+
 ## v0.1.1
 
 [compare changes](https://github.com/kiriminaja/node/compare/v0.1.0...v0.1.1)
