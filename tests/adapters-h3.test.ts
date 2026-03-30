@@ -2,7 +2,6 @@ import { describe, expect, it, beforeEach } from "bun:test";
 import {
     defineKiriminAjaPlugin,
     useKiriminAja,
-    withApiKey,
     KAEnv,
 } from "../src/adapters/h3";
 import { init } from "../src/config/client";
@@ -173,8 +172,8 @@ describe("KAEnv re-export", () => {
     });
 });
 
-describe("withApiKey", () => {
-    it("overrides Authorization header for calls inside the callback", async () => {
+describe("useKiriminAja({ apiKey })", () => {
+    it("overrides Authorization header when apiKey is passed", async () => {
         const { fetchMock, calls } = createMockFetch();
         const plugin = defineKiriminAjaPlugin({
             env: KAEnv.SANDBOX,
@@ -183,15 +182,13 @@ describe("withApiKey", () => {
         });
         plugin();
 
-        await withApiKey("per-user-key", () =>
-            useKiriminAja().address.provinces(),
-        );
+        await useKiriminAja({ apiKey: "per-user-key" }).address.provinces();
 
         const auth = new Headers(calls[0]?.init?.headers).get("Authorization");
         expect(auth).toBe("Bearer per-user-key");
     });
 
-    it("does not affect calls outside the callback (global key restored)", async () => {
+    it("does not affect calls without apiKey param (uses global key)", async () => {
         const { fetchMock, calls } = createMockFetch();
         const plugin = defineKiriminAjaPlugin({
             env: KAEnv.SANDBOX,
@@ -200,24 +197,18 @@ describe("withApiKey", () => {
         });
         plugin();
 
-        await withApiKey("per-user-key", () =>
-            useKiriminAja().address.provinces(),
-        );
-        // call outside — should use the global key
+        await useKiriminAja({ apiKey: "per-user-key" }).address.provinces();
         await useKiriminAja().address.provinces();
 
-        const authOutside = new Headers(calls[1]?.init?.headers).get(
+        const authGlobal = new Headers(calls[1]?.init?.headers).get(
             "Authorization",
         );
-        expect(authOutside).toBe("Bearer global-key");
+        expect(authGlobal).toBe("Bearer global-key");
     });
 
     it("isolates concurrent requests to their own API keys", async () => {
         const calls: { input: string; auth: string | null }[] = [];
-        const fetchMock: (
-            input: Parameters<typeof fetch>[0],
-            init?: Parameters<typeof fetch>[1],
-        ) => ReturnType<typeof fetch> = async (input, reqInit) => {
+        const fetchMock: FetchLike = async (input, reqInit) => {
             calls.push({
                 input: String(input),
                 auth: new Headers(
@@ -239,17 +230,16 @@ describe("withApiKey", () => {
         });
         plugin();
 
-        // Simulate two concurrent requests running interleaved
         await Promise.all([
-            withApiKey("user-A", () => useKiriminAja().address.provinces()),
-            withApiKey("user-B", () => useKiriminAja().address.provinces()),
+            useKiriminAja({ apiKey: "user-A" }).address.provinces(),
+            useKiriminAja({ apiKey: "user-B" }).address.provinces(),
         ]);
 
         const authValues = calls.map((c) => c.auth).sort();
         expect(authValues).toEqual(["Bearer user-A", "Bearer user-B"].sort());
     });
 
-    it("supports async functions inside the callback", async () => {
+    it("works on nested namespaces like order.express", async () => {
         const { fetchMock, calls } = createMockFetch();
         const plugin = defineKiriminAjaPlugin({
             env: KAEnv.SANDBOX,
@@ -258,15 +248,15 @@ describe("withApiKey", () => {
         });
         plugin();
 
-        await withApiKey("async-user-key", async () => {
-            await useKiriminAja().address.provinces();
-        });
+        await useKiriminAja({ apiKey: "nested-key" }).order.express.track(
+            "AWB123",
+        );
 
         const auth = new Headers(calls[0]?.init?.headers).get("Authorization");
-        expect(auth).toBe("Bearer async-user-key");
+        expect(auth).toBe("Bearer nested-key");
     });
 
-    it("falls back to global key when no withApiKey wrapper is present", async () => {
+    it("falls back to global key when apiKey option is not provided", async () => {
         const { fetchMock, calls } = createMockFetch();
         const plugin = defineKiriminAjaPlugin({
             env: KAEnv.SANDBOX,

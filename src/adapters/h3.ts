@@ -7,10 +7,35 @@ export { KAEnv };
 
 /**
  * Holds a per-request API key scoped to a single async execution context.
- * Populated by `withApiKey()` and read by the fetch wrapper installed in
- * `defineKiriminAjaPlugin`.
+ * Populated internally when `useKiriminAja({ apiKey })` is called.
  */
 const apiKeyStorage = new AsyncLocalStorage<string>();
+
+/**
+ * Recursively wraps every function in `obj` so it runs inside
+ * `apiKeyStorage.run(apiKey, ...)`, enabling per-call key isolation
+ * without requiring callers to manage AsyncLocalStorage directly.
+ */
+function wrapWithApiKey<T extends object>(obj: T, apiKey: string): T {
+    return new Proxy(obj, {
+        get(target, key) {
+            const val = target[key as keyof T];
+            if (typeof val === "function") {
+                return (...args: unknown[]) =>
+                    apiKeyStorage.run(apiKey, () =>
+                        (val as (...a: unknown[]) => unknown).apply(
+                            target,
+                            args,
+                        ),
+                    );
+            }
+            if (typeof val === "object" && val !== null) {
+                return wrapWithApiKey(val as object, apiKey);
+            }
+            return val;
+        },
+    });
+}
 
 /**
  * Creates a Nitro/h3 server plugin that initializes the KiriminAja SDK.
@@ -20,8 +45,9 @@ const apiKeyStorage = new AsyncLocalStorage<string>();
  * the plugin callback where `useRuntimeConfig()` is available).
  *
  * The plugin automatically wraps the fetch implementation so that any call to
- * `withApiKey()` inside an event handler will override the Authorization
- * header for that specific request without affecting other concurrent requests.
+ * `useKiriminAja({ apiKey })` inside an event handler will override the
+ * Authorization header for that specific request without affecting other
+ * concurrent requests.
  *
  * @example Plain options (shared API key)
  * ```ts
@@ -71,41 +97,24 @@ export const defineKiriminAjaPlugin = (
     };
 };
 
-/**
- * Runs `fn` with a per-request API key scoped to the current async context.
- * All KiriminAja service calls made inside `fn` will use this key instead of
- * the one provided to `defineKiriminAjaPlugin`.
- *
- * Because isolation is provided by `AsyncLocalStorage`, concurrent requests
- * each see their own key with no cross-contamination.
- *
- * @example
- * ```ts
- * // server/api/rates.post.ts
- * import { withApiKey, useKiriminAja } from 'kiriminaja/adapters/h3'
- *
- * export default defineEventHandler(async (event) => {
- *   const user = await requireAuthUser(event)
- *   const body = await readBody(event)
- *
- *   return withApiKey(user.kiriminajaApiKey, () => {
- *     const { coverageArea } = useKiriminAja()
- *     return coverageArea.pricingExpress(body)
- *   })
- * })
- * ```
- */
-export const withApiKey = <T>(apiKey: string, fn: () => T): T =>
-    apiKeyStorage.run(apiKey, fn);
+export type UseKiriminAjaOptions = {
+    apiKey?: string;
+};
 
 /**
  * Returns the KiriminAja service methods for use inside Nitro/h3 event
  * handlers or Nuxt server routes.
  *
+ * - **No arguments** — uses the API key configured via `defineKiriminAjaPlugin`.
+ * - **`{ apiKey }`** — overrides the Authorization header for every service
+ *   call made on the returned object. Safe for concurrent requests; each call
+ *   runs in its own `AsyncLocalStorage` context so keys never bleed across
+ *   requests.
+ *
  * The SDK **must** have been initialized (via `defineKiriminAjaPlugin`) before
  * any service method is called.
  *
- * @example Shared API key
+ * @example Shared API key (from plugin)
  * ```ts
  * // server/api/rates.post.ts
  * import { useKiriminAja } from 'kiriminaja/adapters/h3'
@@ -117,18 +126,20 @@ export const withApiKey = <T>(apiKey: string, fn: () => T): T =>
  * })
  * ```
  *
- * @example Per-user API key — wrap with `withApiKey`
+ * @example Per-user API key
  * ```ts
  * // server/api/rates.post.ts
- * import { withApiKey, useKiriminAja } from 'kiriminaja/adapters/h3'
+ * import { useKiriminAja } from 'kiriminaja/adapters/h3'
  *
  * export default defineEventHandler(async (event) => {
  *   const user = await requireAuthUser(event)
  *   const body = await readBody(event)
- *   return withApiKey(user.kiriminajaApiKey, () => {
- *     return useKiriminAja().coverageArea.pricingExpress(body)
- *   })
+ *   const { coverageArea } = useKiriminAja({ apiKey: user.kiriminajaApiKey })
+ *   return coverageArea.pricingExpress(body)
  * })
  * ```
  */
-export const useKiriminAja = () => services;
+export const useKiriminAja = (options?: UseKiriminAjaOptions) => {
+    if (!options?.apiKey) return services;
+    return wrapWithApiKey(services, options.apiKey);
+};

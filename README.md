@@ -229,25 +229,29 @@ export default defineEventHandler(async (event) => {
 
 ## Per-user / Per-request API Keys
 
-If each user has their own KiriminAja API key (e.g. you are building a multi-tenant app), use `withApiKey()` instead of storing different keys in the singleton.
-
-`withApiKey` uses Node.js `AsyncLocalStorage` internally, so concurrent requests are fully isolated — User A and User B can hit the same endpoint simultaneously and each sees only their own key, with no global state mutation.
+If each user has their own KiriminAja API key, pass it directly to `useKiriminAja({ apiKey })`. No wrapper function needed — the key is scoped to that call and its entire async chain via `AsyncLocalStorage` internally, so concurrent requests are fully isolated.
 
 ```ts
 // server/api/rates.post.ts
-import { withApiKey, useKiriminAja } from "kiriminaja/adapters/h3";
+import { useKiriminAja } from "kiriminaja/adapters/h3";
 
 export default defineEventHandler(async (event) => {
-    const user = await requireAuthUser(event); // your auth helper
+    const user = await requireAuthUser(event);
     const body = await readBody(event);
 
-    return withApiKey(user.kiriminajaApiKey, () => {
-        return useKiriminAja().coverageArea.pricingExpress(body);
-    });
+    const { coverageArea } = useKiriminAja({ apiKey: user.kiriminajaApiKey });
+    return coverageArea.pricingExpress(body);
 });
 ```
 
-`withApiKey(apiKey, fn)` overrides the `Authorization` header for every KiriminAja call made inside `fn`. Calls made **outside** a `withApiKey` block continue to use the key set in `defineKiriminAjaPlugin`.
+Works on nested namespaces too:
+
+```ts
+const { order } = useKiriminAja({ apiKey: user.kiriminajaApiKey });
+await order.express.track("AWB123");
+```
+
+Calls made without `{ apiKey }` fall back to the key set in `defineKiriminAjaPlugin`.
 
 ---
 
