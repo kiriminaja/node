@@ -1,41 +1,8 @@
-import { AsyncLocalStorage } from "node:async_hooks";
-import { init, type InitOptions, type FetchLike } from "../config/client.js";
+import { init, getConfig, type InitOptions } from "../config/client.js";
 import { services } from "../services/index.js";
 import { KAEnv } from "../config/api.js";
 
 export { KAEnv };
-
-/**
- * Holds a per-request API key scoped to a single async execution context.
- * Populated internally when `useKiriminAja({ apiKey })` is called.
- */
-const apiKeyStorage = new AsyncLocalStorage<string>();
-
-/**
- * Recursively wraps every function in `obj` so it runs inside
- * `apiKeyStorage.run(apiKey, ...)`, enabling per-call key isolation
- * without requiring callers to manage AsyncLocalStorage directly.
- */
-function wrapWithApiKey<T extends object>(obj: T, apiKey: string): T {
-    return new Proxy(obj, {
-        get(target, key) {
-            const val = target[key as keyof T];
-            if (typeof val === "function") {
-                return (...args: unknown[]) =>
-                    apiKeyStorage.run(apiKey, () =>
-                        (val as (...a: unknown[]) => unknown).apply(
-                            target,
-                            args,
-                        ),
-                    );
-            }
-            if (typeof val === "object" && val !== null) {
-                return wrapWithApiKey(val as object, apiKey);
-            }
-            return val;
-        },
-    });
-}
 
 /**
  * Creates a Nitro/h3 server plugin that initializes the KiriminAja SDK.
@@ -43,11 +10,6 @@ function wrapWithApiKey<T extends object>(obj: T, apiKey: string): T {
  * Accepts either a plain options object or a factory function — use the
  * factory form when you need to read Nuxt runtime config lazily (i.e. inside
  * the plugin callback where `useRuntimeConfig()` is available).
- *
- * The plugin automatically wraps the fetch implementation so that any call to
- * `useKiriminAja({ apiKey })` inside an event handler will override the
- * Authorization header for that specific request without affecting other
- * concurrent requests.
  *
  * @example Plain options (shared API key)
  * ```ts
@@ -77,23 +39,7 @@ export const defineKiriminAjaPlugin = (
 ) => {
     return () => {
         const resolved = typeof options === "function" ? options() : options;
-        const baseFetch: FetchLike = resolved.fetch ?? globalThis.fetch;
-
-        const wrappedFetch: FetchLike = (input, reqInit) => {
-            const perRequestKey = apiKeyStorage.getStore();
-            if (perRequestKey) {
-                const headers = new Headers(
-                    reqInit?.headers as ConstructorParameters<
-                        typeof Headers
-                    >[0],
-                );
-                headers.set("Authorization", `Bearer ${perRequestKey}`);
-                return baseFetch(input, { ...reqInit, headers });
-            }
-            return baseFetch(input, reqInit);
-        };
-
-        init({ ...resolved, fetch: wrappedFetch });
+        init(resolved);
     };
 };
 
@@ -140,6 +86,9 @@ export type UseKiriminAjaOptions = {
  * ```
  */
 export const useKiriminAja = (options?: UseKiriminAjaOptions) => {
-    if (!options?.apiKey) return services;
-    return wrapWithApiKey(services, options.apiKey);
+    if (options?.apiKey) {
+        const current = getConfig();
+        init({ ...current, apiKey: options.apiKey });
+    }
+    return services;
 };

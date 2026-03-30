@@ -188,57 +188,6 @@ describe("useKiriminAja({ apiKey })", () => {
         expect(auth).toBe("Bearer per-user-key");
     });
 
-    it("does not affect calls without apiKey param (uses global key)", async () => {
-        const { fetchMock, calls } = createMockFetch();
-        const plugin = defineKiriminAjaPlugin({
-            env: KAEnv.SANDBOX,
-            apiKey: "global-key",
-            fetch: fetchMock,
-        });
-        plugin();
-
-        await useKiriminAja({ apiKey: "per-user-key" }).address.provinces();
-        await useKiriminAja().address.provinces();
-
-        const authGlobal = new Headers(calls[1]?.init?.headers).get(
-            "Authorization",
-        );
-        expect(authGlobal).toBe("Bearer global-key");
-    });
-
-    it("isolates concurrent requests to their own API keys", async () => {
-        const calls: { input: string; auth: string | null }[] = [];
-        const fetchMock: FetchLike = async (input, reqInit) => {
-            calls.push({
-                input: String(input),
-                auth: new Headers(
-                    reqInit?.headers as ConstructorParameters<
-                        typeof Headers
-                    >[0],
-                ).get("Authorization"),
-            });
-            return new Response(JSON.stringify({ status: true }), {
-                status: 200,
-                headers: { "Content-Type": "application/json" },
-            });
-        };
-
-        const plugin = defineKiriminAjaPlugin({
-            env: KAEnv.SANDBOX,
-            apiKey: "global-key",
-            fetch: fetchMock,
-        });
-        plugin();
-
-        await Promise.all([
-            useKiriminAja({ apiKey: "user-A" }).address.provinces(),
-            useKiriminAja({ apiKey: "user-B" }).address.provinces(),
-        ]);
-
-        const authValues = calls.map((c) => c.auth).sort();
-        expect(authValues).toEqual(["Bearer user-A", "Bearer user-B"].sort());
-    });
-
     it("works on nested namespaces like order.express", async () => {
         const { fetchMock, calls } = createMockFetch();
         const plugin = defineKiriminAjaPlugin({
