@@ -1,6 +1,27 @@
 # Changelog
 
 
+## v0.1.6
+
+[compare changes](https://github.com/kiriminaja/node/compare/v0.1.5...v0.1.6)
+
+### 🩹 Fixes
+
+- Update @types/node version to ^25.5.0 in package.json and bun.lock ([3f3cf91](https://github.com/kiriminaja/node/commit/3f3cf91))
+
+### 💅 Refactors
+
+- Replace withApiKey function with direct apiKey usage in useKiriminAja for improved isolation and simplicity ([c5722f1](https://github.com/kiriminaja/node/commit/c5722f1))
+- Simplify useKiriminAja by removing AsyncLocalStorage and related API key isolation logic ([131981a](https://github.com/kiriminaja/node/commit/131981a))
+
+### ✅ Tests
+
+- Add unit tests for withApiKey function to validate API key isolation and authorization header behavior ([c71a10e](https://github.com/kiriminaja/node/commit/c71a10e))
+
+### ❤️ Contributors
+
+- Yanuar Aditia ([@ngalor](https://github.com/ngalor))
+
 ## v0.1.5
 
 [compare changes](https://github.com/kiriminaja/node/compare/v0.1.4...v0.1.5)
