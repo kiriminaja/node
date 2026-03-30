@@ -1,6 +1,19 @@
 # Changelog
 
 
+## v0.1.3
+
+[compare changes](https://github.com/kiriminaja/node/compare/v0.1.2...v0.1.3)
+
+### 🩹 Fixes
+
+- Update @types/bun and typescript versions in package.json and bun.lock ([70d0f27](https://github.com/kiriminaja/node/commit/70d0f27))
+- Downgrade typescript version to ^6.0.0 in package.json ([ef35bd0](https://github.com/kiriminaja/node/commit/ef35bd0))
+
+### ❤️ Contributors
+
+- Yanuar Aditia ([@ngalor](https://github.com/ngalor))
+
 ## v0.1.2
 
 [compare changes](https://github.com/kiriminaja/node/compare/v0.1.1...v0.1.2)
