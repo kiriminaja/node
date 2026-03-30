@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.1.5
+
+[compare changes](https://github.com/kiriminaja/node/compare/v0.1.4...v0.1.5)
+
+### 🚀 Enhancements
+
+- Add h3 adapter with plugin initialization and service access ([0a1d516](https://github.com/kiriminaja/node/commit/0a1d516))
+
+### ❤️ Contributors
+
+- Yanuar Aditia ([@ngalor](https://github.com/ngalor))
+
 ## v0.1.4
 
 [compare changes](https://github.com/kiriminaja/node/compare/v0.1.3...v0.1.4)
