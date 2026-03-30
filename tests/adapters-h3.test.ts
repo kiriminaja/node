@@ -2,6 +2,7 @@ import { describe, expect, it, beforeEach } from "bun:test";
 import {
     defineKiriminAjaPlugin,
     useKiriminAja,
+    withApiKey,
     KAEnv,
 } from "../src/adapters/h3";
 import { init } from "../src/config/client";
@@ -169,5 +170,114 @@ describe("KAEnv re-export", () => {
     it("re-exports KAEnv enum values from the h3 adapter", () => {
         expect(KAEnv.SANDBOX as string).toBe("sandbox");
         expect(KAEnv.PRODUCTION as string).toBe("production");
+    });
+});
+
+describe("withApiKey", () => {
+    it("overrides Authorization header for calls inside the callback", async () => {
+        const { fetchMock, calls } = createMockFetch();
+        const plugin = defineKiriminAjaPlugin({
+            env: KAEnv.SANDBOX,
+            apiKey: "global-key",
+            fetch: fetchMock,
+        });
+        plugin();
+
+        await withApiKey("per-user-key", () =>
+            useKiriminAja().address.provinces(),
+        );
+
+        const auth = new Headers(calls[0]?.init?.headers).get("Authorization");
+        expect(auth).toBe("Bearer per-user-key");
+    });
+
+    it("does not affect calls outside the callback (global key restored)", async () => {
+        const { fetchMock, calls } = createMockFetch();
+        const plugin = defineKiriminAjaPlugin({
+            env: KAEnv.SANDBOX,
+            apiKey: "global-key",
+            fetch: fetchMock,
+        });
+        plugin();
+
+        await withApiKey("per-user-key", () =>
+            useKiriminAja().address.provinces(),
+        );
+        // call outside — should use the global key
+        await useKiriminAja().address.provinces();
+
+        const authOutside = new Headers(calls[1]?.init?.headers).get(
+            "Authorization",
+        );
+        expect(authOutside).toBe("Bearer global-key");
+    });
+
+    it("isolates concurrent requests to their own API keys", async () => {
+        const calls: { input: string; auth: string | null }[] = [];
+        const fetchMock: (
+            input: Parameters<typeof fetch>[0],
+            init?: Parameters<typeof fetch>[1],
+        ) => ReturnType<typeof fetch> = async (input, reqInit) => {
+            calls.push({
+                input: String(input),
+                auth: new Headers(
+                    reqInit?.headers as ConstructorParameters<
+                        typeof Headers
+                    >[0],
+                ).get("Authorization"),
+            });
+            return new Response(JSON.stringify({ status: true }), {
+                status: 200,
+                headers: { "Content-Type": "application/json" },
+            });
+        };
+
+        const plugin = defineKiriminAjaPlugin({
+            env: KAEnv.SANDBOX,
+            apiKey: "global-key",
+            fetch: fetchMock,
+        });
+        plugin();
+
+        // Simulate two concurrent requests running interleaved
+        await Promise.all([
+            withApiKey("user-A", () => useKiriminAja().address.provinces()),
+            withApiKey("user-B", () => useKiriminAja().address.provinces()),
+        ]);
+
+        const authValues = calls.map((c) => c.auth).sort();
+        expect(authValues).toEqual(["Bearer user-A", "Bearer user-B"].sort());
+    });
+
+    it("supports async functions inside the callback", async () => {
+        const { fetchMock, calls } = createMockFetch();
+        const plugin = defineKiriminAjaPlugin({
+            env: KAEnv.SANDBOX,
+            apiKey: "global-key",
+            fetch: fetchMock,
+        });
+        plugin();
+
+        await withApiKey("async-user-key", async () => {
+            await useKiriminAja().address.provinces();
+        });
+
+        const auth = new Headers(calls[0]?.init?.headers).get("Authorization");
+        expect(auth).toBe("Bearer async-user-key");
+    });
+
+    it("falls back to global key when no withApiKey wrapper is present", async () => {
+        const { fetchMock, calls } = createMockFetch();
+        const plugin = defineKiriminAjaPlugin({
+            env: KAEnv.SANDBOX,
+            apiKey: "fallback-global",
+            fetch: fetchMock,
+        });
+        plugin();
+
+        await useKiriminAja().address.provinces();
+
+        const auth = new Headers(calls[0]?.init?.headers).get("Authorization");
+        expect(auth).toBe("Bearer fallback-global");
     });
 });
