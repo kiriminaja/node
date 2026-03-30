@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.1.4
+
+[compare changes](https://github.com/kiriminaja/node/compare/v0.1.3...v0.1.4)
+
+### 🩹 Fixes
+
+- Downgrade typescript version to ^6.0.0 in bun.lock ([27e2699](https://github.com/kiriminaja/node/commit/27e2699))
+
+### ❤️ Contributors
+
+- Yanuar Aditia ([@ngalor](https://github.com/ngalor))
+
 ## v0.1.3
 
 [compare changes](https://github.com/kiriminaja/node/compare/v0.1.2...v0.1.3)
