@@ -1,7 +1,7 @@
-import { getCourierDetail } from "./detail";
-import { getCourierGroups } from "./group";
-import { listCouriers } from "./list";
-import { setWhitelistServices } from "./set-whitelist-services";
+import { getCourierDetail } from "./detail.js";
+import { getCourierGroups } from "./group.js";
+import { listCouriers } from "./list.js";
+import { setWhitelistServices } from "./set-whitelist-services.js";
 
 export const courier = {
     list: listCouriers,

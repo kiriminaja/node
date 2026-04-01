@@ -1,4 +1,4 @@
-import { BaseResponse } from "./response";
+import type { BaseResponse } from "./response.js";
 
 export interface CancelExpressOrderResponse extends BaseResponse {
     data: {

@@ -1,5 +1,5 @@
-import type { DistrictListResponse } from "../../types/coverage-area.responses";
-import { postJson } from "../../http/request";
+import type { DistrictListResponse } from "../../types/coverage-area.responses.js";
+import { postJson } from "../../http/request.js";
 
 export const getDistricts = (kabupatenId: number) => {
     return postJson<DistrictListResponse>("/api/mitra/kecamatan", {

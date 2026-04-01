@@ -1,4 +1,4 @@
-import { KA_ENV_URL, KAEnv } from "./api";
+import { KA_ENV_URL, KAEnv } from "./api.js";
 
 export type FetchLike = (
     input: Parameters<typeof fetch>[0],
@@ -35,7 +35,7 @@ export const init = ({
     fetch: fetchImpl,
     headers,
 }: InitOptions = {}): ClientConfig => {
-    const resolvedFetch = fetchImpl ?? globalThis.fetch;
+    const resolvedFetch = fetchImpl ?? (globalThis as Record<string, unknown>).fetch as FetchLike | undefined;
     if (!resolvedFetch) {
         throw new Error(
             "Global fetch is not available. Provide Init({ fetch }) or use a runtime with fetch (Node 18+/Bun).",

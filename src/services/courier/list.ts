@@ -1,5 +1,5 @@
-import type { CourierListResponse } from "../../types/courier";
-import { postJson } from "../../http/request";
+import type { CourierListResponse } from "../../types/courier.js";
+import { postJson } from "../../http/request.js";
 
 export const listCouriers = () =>
     postJson<CourierListResponse>("/api/mitra/couriers");

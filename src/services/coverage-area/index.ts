@@ -1,6 +1,6 @@
-import { getPricingExpress } from "./pricing-express";
-import { getPricingInstant } from "./pricing-instant";
-import { address } from "../address";
+import { getPricingExpress } from "./pricing-express.js";
+import { getPricingInstant } from "./pricing-instant.js";
+import { address } from "../address/index.js";
 
 export const coverageArea = {
     ...address,

@@ -1,4 +1,4 @@
-import { getConfig } from "../config/client";
+import { getConfig } from "../config/client.js";
 
 type RequestMethod = "GET" | "POST" | "DELETE";
 

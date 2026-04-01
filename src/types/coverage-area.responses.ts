@@ -1,12 +1,12 @@
-import type { Province } from "./region";
-import { BaseResponse } from "./response";
+import type { Province } from "./region.js";
+import type { BaseResponse } from "./response.js";
 
 import type {
     AddressByNameResult,
     City,
     District,
     SubDistrict,
-} from "./coverage-area";
+} from "./coverage-area.js";
 
 export interface ProvinceListResponse extends BaseResponse {
     datas: Province[];

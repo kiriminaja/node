@@ -1,5 +1,5 @@
-import type { SetCourierPreferenceResponse } from "../../types/courier";
-import { postJson } from "../../http/request";
+import type { SetCourierPreferenceResponse } from "../../types/courier.js";
+import { postJson } from "../../http/request.js";
 
 export const setWhitelistServices = (services: string[]) =>
     postJson<SetCourierPreferenceResponse>(

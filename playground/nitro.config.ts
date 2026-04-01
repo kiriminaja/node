@@ -1,8 +1,8 @@
-import { defineNitroConfig } from "nitropack/config"
+import { defineConfig } from "nitro";
 
 // https://nitro.build/config
-export default defineNitroConfig({
-  compatibilityDate: "latest",
-  srcDir: "server",
-  imports: false
+export default defineConfig({
+    compatibilityDate: "latest",
+    serverDir: "server",
+    imports: false,
 });

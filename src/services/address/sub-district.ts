@@ -1,5 +1,5 @@
-import type { SubDistrictListResponse } from "../../types/coverage-area.responses";
-import { postJson } from "../../http/request";
+import type { SubDistrictListResponse } from "../../types/coverage-area.responses.js";
+import { postJson } from "../../http/request.js";
 
 export const getSubDistricts = (kecamatanId: number) => {
     return postJson<SubDistrictListResponse>("/api/mitra/kelurahan", {

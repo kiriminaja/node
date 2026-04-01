@@ -8,7 +8,10 @@
         "declarationMap": true,
         "sourceMap": true,
         "lib": ["ESNext", "DOM"],
-        "allowImportingTsExtensions": false
+        "allowImportingTsExtensions": false,
+
+        "module": "NodeNext", // or "ESNext" / "ES2022"
+        "moduleResolution": "NodeNext" // must match module setting
     },
     "include": ["src/**/*.ts"],
     "exclude": ["tests/**", "node_modules/**", "dist/**"]

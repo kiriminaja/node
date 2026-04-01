@@ -1,5 +1,5 @@
-import type { InstantTrackingResponse } from "../../../types/order.responses";
-import { getJson } from "../../../http/request";
+import type { InstantTrackingResponse } from "../../../types/order.responses.js";
+import { getJson } from "../../../http/request.js";
 
 export const trackInstantOrder = (orderId: string) =>
     getJson<InstantTrackingResponse>(
