@@ -45,17 +45,20 @@ export const defineKiriminAjaPlugin = (
 
 export type UseKiriminAjaOptions = {
     apiKey?: string;
+    env?: KAEnv;
+    baseUrl?: string;
 };
 
 /**
  * Returns the KiriminAja service methods for use inside Nitro/h3 event
  * handlers or Nuxt server routes.
  *
- * - **No arguments** — uses the API key configured via `defineKiriminAjaPlugin`.
+ * - **No arguments** — uses the config set via `defineKiriminAjaPlugin`.
  * - **`{ apiKey }`** — overrides the Authorization header for every service
- *   call made on the returned object. Safe for concurrent requests; each call
- *   runs in its own `AsyncLocalStorage` context so keys never bleed across
- *   requests.
+ *   call made on the returned object.
+ * - **`{ env }`** — switches between sandbox and production environments.
+ * - **`{ baseUrl }`** — points all requests to a custom URL (e.g. an internal
+ *   proxy or staging server).
  *
  * The SDK **must** have been initialized (via `defineKiriminAjaPlugin`) before
  * any service method is called.
@@ -84,11 +87,27 @@ export type UseKiriminAjaOptions = {
  *   return coverageArea.pricingExpress(body)
  * })
  * ```
+ *
+ * @example Custom base URL (internal proxy)
+ * ```ts
+ * import { useKiriminAja } from 'kiriminaja/adapters/h3'
+ *
+ * export default defineEventHandler(async (event) => {
+ *   const { coverageArea } = useKiriminAja({ baseUrl: 'https://internal-proxy.local' })
+ *   return coverageArea.pricingExpress(await readBody(event))
+ * })
+ * ```
  */
 export const useKiriminAja = (options?: UseKiriminAjaOptions) => {
-    if (options?.apiKey) {
+    if (options?.apiKey || options?.env || options?.baseUrl) {
         const current = getConfig();
-        init({ ...current, apiKey: options.apiKey });
+        const merged = { ...current, ...options };
+        // When env changes but no explicit baseUrl was given, clear baseUrl
+        // so init() derives it from the new env.
+        if (options.env && !options.baseUrl) {
+            delete (merged as Record<string, unknown>).baseUrl;
+        }
+        init(merged);
     }
     return services;
 };

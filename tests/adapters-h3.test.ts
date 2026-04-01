@@ -220,3 +220,95 @@ describe("useKiriminAja({ apiKey })", () => {
         expect(auth).toBe("Bearer fallback-global");
     });
 });
+
+describe("useKiriminAja({ env })", () => {
+    it("switches to production URL when env is overridden", async () => {
+        const { fetchMock, calls } = createMockFetch();
+        const plugin = defineKiriminAjaPlugin({
+            env: KAEnv.SANDBOX,
+            apiKey: "test-key",
+            fetch: fetchMock,
+        });
+        plugin();
+
+        await useKiriminAja({ env: KAEnv.PRODUCTION }).address.provinces();
+
+        expect(String(calls[0]!.input)).toStartWith(
+            KA_ENV_URL[KAEnv.PRODUCTION],
+        );
+    });
+
+    it("switches to sandbox URL when env is overridden", async () => {
+        const { fetchMock, calls } = createMockFetch();
+        const plugin = defineKiriminAjaPlugin({
+            env: KAEnv.PRODUCTION,
+            apiKey: "test-key",
+            fetch: fetchMock,
+        });
+        plugin();
+
+        await useKiriminAja({ env: KAEnv.SANDBOX }).address.provinces();
+
+        expect(String(calls[0]!.input)).toStartWith(
+            KA_ENV_URL[KAEnv.SANDBOX],
+        );
+    });
+});
+
+describe("useKiriminAja({ baseUrl })", () => {
+    it("overrides base URL to a custom endpoint", async () => {
+        const { fetchMock, calls } = createMockFetch();
+        const plugin = defineKiriminAjaPlugin({
+            env: KAEnv.SANDBOX,
+            apiKey: "test-key",
+            fetch: fetchMock,
+        });
+        plugin();
+
+        await useKiriminAja({
+            baseUrl: "https://internal-proxy.local",
+        }).address.provinces();
+
+        expect(String(calls[0]!.input)).toStartWith(
+            "https://internal-proxy.local",
+        );
+    });
+
+    it("preserves apiKey when only baseUrl is overridden", async () => {
+        const { fetchMock, calls } = createMockFetch();
+        const plugin = defineKiriminAjaPlugin({
+            env: KAEnv.SANDBOX,
+            apiKey: "global-key",
+            fetch: fetchMock,
+        });
+        plugin();
+
+        await useKiriminAja({
+            baseUrl: "https://internal-proxy.local",
+        }).address.provinces();
+
+        const auth = new Headers(calls[0]?.init?.headers).get("Authorization");
+        expect(auth).toBe("Bearer global-key");
+    });
+
+    it("can combine baseUrl with apiKey override", async () => {
+        const { fetchMock, calls } = createMockFetch();
+        const plugin = defineKiriminAjaPlugin({
+            env: KAEnv.SANDBOX,
+            apiKey: "global-key",
+            fetch: fetchMock,
+        });
+        plugin();
+
+        await useKiriminAja({
+            baseUrl: "https://internal-proxy.local",
+            apiKey: "custom-key",
+        }).address.provinces();
+
+        expect(String(calls[0]!.input)).toStartWith(
+            "https://internal-proxy.local",
+        );
+        const auth = new Headers(calls[0]?.init?.headers).get("Authorization");
+        expect(auth).toBe("Bearer custom-key");
+    });
+});

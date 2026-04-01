@@ -255,6 +255,50 @@ Calls made without `{ apiKey }` fall back to the key set in `defineKiriminAjaPlu
 
 ---
 
+## Runtime Overrides (env & baseUrl)
+
+Besides `apiKey`, `useKiriminAja()` also accepts `env` and `baseUrl` to override the config set by the plugin — useful for internal proxies, staging servers, or switching environments per-request.
+
+| Option    | Type    | Description                                       |
+| --------- | ------- | ------------------------------------------------- |
+| `apiKey`  | `string` | Override the Authorization header                 |
+| `env`     | `KAEnv`  | Switch between `KAEnv.SANDBOX` and `KAEnv.PRODUCTION` |
+| `baseUrl` | `string` | Point all requests to a custom URL                |
+
+```ts
+// Route requests through an internal proxy
+import { useKiriminAja } from "kiriminaja/adapters/h3";
+
+export default defineEventHandler(async (event) => {
+    const { coverageArea } = useKiriminAja({
+        baseUrl: "https://internal-proxy.local",
+    });
+    return coverageArea.pricingExpress(await readBody(event));
+});
+```
+
+```ts
+// Switch to production for a specific request
+import { useKiriminAja, KAEnv } from "kiriminaja/adapters/h3";
+
+export default defineEventHandler(async (event) => {
+    const { coverageArea } = useKiriminAja({ env: KAEnv.PRODUCTION });
+    return coverageArea.pricingExpress(await readBody(event));
+});
+```
+
+Options can be combined freely:
+
+```ts
+const { order } = useKiriminAja({
+    apiKey: user.kiriminajaApiKey,
+    baseUrl: "https://internal-proxy.local",
+});
+await order.express.track("AWB123");
+```
+
+---
+
 ## Development
 
 ```bash
