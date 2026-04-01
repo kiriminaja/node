@@ -100,14 +100,22 @@ export type UseKiriminAjaOptions = {
  */
 export const useKiriminAja = (options?: UseKiriminAjaOptions) => {
     if (options?.apiKey || options?.env || options?.baseUrl) {
-        const current = getConfig();
+        let current: Record<string, unknown> = {};
+        try {
+            current = { ...getConfig() };
+        } catch {
+            // No prior init — that's fine, we'll bootstrap from options alone.
+        }
         const merged = { ...current, ...options };
         // When env changes but no explicit baseUrl was given, clear baseUrl
         // so init() derives it from the new env.
         if (options.env && !options.baseUrl) {
-            delete (merged as Record<string, unknown>).baseUrl;
+            delete merged.baseUrl;
         }
-        init(merged);
+        init(merged as Parameters<typeof init>[0]);
+    } else {
+        // Ensure the SDK was initialized — will throw if not.
+        getConfig();
     }
     return services;
 };

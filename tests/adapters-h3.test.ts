@@ -156,11 +156,11 @@ describe("useKiriminAja", () => {
             // scope is not achievable without module mocking; we assert the
             // error message string matches the guard in client.ts.
             const err = new Error(
-                "KiriminAja.Init() must be called before using any API methods.",
+                "KiriminAja SDK is not initialized. Call KiriminAja.init(), or use a framework adapter (e.g. defineKiriminAjaPlugin for h3/Nitro), or pass options directly to useKiriminAja().",
             );
             throw err;
         }).toThrow(
-            "KiriminAja.Init() must be called before using any API methods.",
+            "KiriminAja SDK is not initialized. Call KiriminAja.init(), or use a framework adapter (e.g. defineKiriminAjaPlugin for h3/Nitro), or pass options directly to useKiriminAja().",
         );
     });
 });
