@@ -1,0 +1,4 @@
+playground/
+tests/
+*.log
+.env

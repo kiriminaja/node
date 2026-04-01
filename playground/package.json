@@ -8,7 +8,6 @@
     "preview": "node .output/server/index.mjs"
   },
   "dependencies": {
-    "nitro": "3.0.260311-beta",
-    "kiriminaja": "file:../"
+    "nitro": "3.0.260311-beta"
   }
 }
