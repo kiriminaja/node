@@ -4,7 +4,7 @@
     "type": "module",
     "main": "./dist/index.cjs",
     "module": "./dist/index.mjs",
-    "types": "./dist/index.d.ts",
+    "types": "./dist/index.d.mts",
     "license": "MIT",
     "homepage": "https://developer.kiriminaja.com",
     "repository": {
@@ -14,14 +14,24 @@
     "author": "Kiriminaja Team <team@kiriminaja.com>",
     "exports": {
         ".": {
-            "types": "./dist/index.d.ts",
-            "import": "./dist/index.mjs",
-            "require": "./dist/index.cjs"
+            "import": {
+                "types": "./dist/index.d.mts",
+                "default": "./dist/index.mjs"
+            },
+            "require": {
+                "types": "./dist/index.d.cts",
+                "default": "./dist/index.cjs"
+            }
         },
         "./adapters/h3": {
-            "types": "./dist/adapters/h3.d.ts",
-            "import": "./dist/adapters/h3.mjs",
-            "require": "./dist/adapters/h3.cjs"
+            "import": {
+                "types": "./dist/adapters/h3.d.mts",
+                "default": "./dist/adapters/h3.mjs"
+            },
+            "require": {
+                "types": "./dist/adapters/h3.d.cts",
+                "default": "./dist/adapters/h3.cjs"
+            }
         }
     },
     "files": [
@@ -33,8 +43,7 @@
         "@types/bun": "^1.3.11",
         "@types/node": "^25.5.0",
         "changelogen": "^0.6.2",
-        "tsc-alias": "^1.8.16",
-        "tsup": "^8.5.1",
+        "tsdown": "^0.21.7",
         "typescript": "^6.0.0"
     },
     "peerDependencies": {
@@ -43,7 +52,7 @@
     "private": false,
     "scripts": {
         "release": "bun test && bun run build && changelogen --release && git push --follow-tags && npm publish --access=public",
-        "build": "bun run clean && tsup && tsc -p tsconfig.build.json && tsc-alias -p tsconfig.build.json",
+        "build": "bun run clean && tsdown",
         "dev": "cd playground && bun dev",
         "clean": "rm -rf dist",
         "test": "bun test",

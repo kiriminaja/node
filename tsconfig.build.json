@@ -8,13 +8,6 @@
     "paths": {
       "@/*": ["./src/*"]
     },
-    "outDir": "dist",
-    "rootDir": "src",
-    "declaration": true,
-    "declarationMap": true,
-    "emitDeclarationOnly": true,
-    "noEmit": false,
-    "rewriteRelativeImportExtensions": true,
     "allowJs": true,
     "verbatimModuleSyntax": false,
     "strict": true,
