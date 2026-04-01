@@ -5,6 +5,9 @@
     "module": "Preserve",
     "moduleResolution": "bundler",
     "moduleDetection": "auto",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
     "outDir": "dist",
     "rootDir": "src",
     "declaration": true,

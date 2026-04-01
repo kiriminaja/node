@@ -1,4 +1,9 @@
 import { defineConfig } from "tsup";
+import { resolve } from "path";
+
+const alias = {
+  "@": resolve("src"),
+};
 
 export default defineConfig([
   {
@@ -11,6 +16,9 @@ export default defineConfig([
     treeshake: true,
     dts: false,
     tsconfig: "tsconfig.build.json",
+    esbuildOptions(options) {
+      options.alias = alias;
+    },
   },
   {
     entry: ["src/index.ts", "src/adapters/h3.ts"],
@@ -22,5 +30,8 @@ export default defineConfig([
     dts: false,
     cjsInterop: true,
     tsconfig: "tsconfig.build.json",
+    esbuildOptions(options) {
+      options.alias = alias;
+    },
   },
 ]);
