@@ -1,6 +1,22 @@
 # Changelog
 
 
+## v0.1.8
+
+[compare changes](https://github.com/kiriminaja/node/compare/v0.1.7...v0.1.8)
+
+### 🚀 Enhancements
+
+- Add runtime overrides for env and baseUrl in useKiriminAja ([f874617](https://github.com/kiriminaja/node/commit/f874617))
+
+### 🩹 Fixes
+
+- Improve error messages for SDK initialization and enhance useKiriminAja options handling ([ae1eea8](https://github.com/kiriminaja/node/commit/ae1eea8))
+
+### ❤️ Contributors
+
+- Yanuar Aditia ([@ngalor](https://github.com/ngalor))
+
 ## v0.1.7
 
 [compare changes](https://github.com/kiriminaja/node/compare/v0.1.6...v0.1.7)
