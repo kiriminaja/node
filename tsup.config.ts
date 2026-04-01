@@ -1,18 +1,25 @@
-// tsup.config.ts
 import { defineConfig } from "tsup";
 
-export default defineConfig({
+export default defineConfig([
+  {
     entry: ["src/index.ts", "src/adapters/h3.ts"],
-    format: ["esm", "cjs"],
-    outExtension({ format }: { format: "esm" | "cjs" | "iife" }) {
-        return {
-            js: format === "esm" ? ".mjs" : ".cjs",
-        };
-    },
-    dts: { resolve: true },
+    format: ["esm"],
+    outExtension: () => ({ js: ".mjs" }),
     sourcemap: true,
     clean: true,
     splitting: false,
     treeshake: true,
+    dts: false,
     tsconfig: "tsconfig.build.json",
-});
+  },
+  {
+    entry: ["src/index.ts", "src/adapters/h3.ts"],
+    format: ["cjs"],
+    outExtension: () => ({ js: ".cjs" }),
+    sourcemap: true,
+    splitting: false,
+    treeshake: true,
+    dts: false,
+    tsconfig: "tsconfig.build.json",
+  },
+]);
