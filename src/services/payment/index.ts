@@ -1,4 +1,4 @@
-import { getPayment } from "./get-payment.js";
+import { getPayment } from "./get-payment";
 
 export const payment = {
     getPayment,

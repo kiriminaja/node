@@ -1,5 +1,5 @@
-import type { CreateInstantPickupResponse } from "../../../types/order.responses.js";
-import { postJson } from "../../../http/request.js";
+import type { CreateInstantPickupResponse } from "../../../types/order-responses";
+import { postJson } from "../../../http/request";
 
 export const createInstantPickup = (payload: unknown) =>
     postJson<CreateInstantPickupResponse>(

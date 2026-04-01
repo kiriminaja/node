@@ -1,5 +1,5 @@
-import type { CancelInstantOrderResponse } from "../../../types/order.responses.js";
-import { deleteJson } from "../../../http/request.js";
+import type { CancelInstantOrderResponse } from "../../../types/order-responses";
+import { deleteJson } from "../../../http/request";
 
 export const cancelInstantOrder = (orderId: string) =>
     deleteJson<CancelInstantOrderResponse>(

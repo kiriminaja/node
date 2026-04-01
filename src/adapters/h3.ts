@@ -1,6 +1,6 @@
-import { init, getConfig, type InitOptions } from "../config/client.js";
-import { services } from "../services/index.js";
-import { KAEnv } from "../config/api.js";
+import { init, getConfig, type InitOptions } from "../config/client";
+import { services } from "../services/index";
+import { KAEnv } from "../config/api";
 
 export { KAEnv };
 

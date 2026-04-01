@@ -1,4 +1,4 @@
-import type { BaseResponse } from "./response.js";
+import type { BaseResponse } from "./response";
 
 export type PickupScheduleItem = {
     clock: string;

@@ -3,13 +3,13 @@ import {
     requestPickupV5,
     requestPickupV61,
     trackExpressOrder,
-} from "./express.js";
+} from "./express";
 import {
     cancelInstantOrder,
     createInstantPickup,
     findNewInstantDriver,
     trackInstantOrder,
-} from "./instant.js";
+} from "./instant";
 
 export const order = {
     express: {

@@ -1,4 +1,4 @@
-import type { KAResponse } from "./api-response.js";
+import type { KAResponse } from "./api-response";
 
 export type CourierType = "Express" | "Instant" | string;
 

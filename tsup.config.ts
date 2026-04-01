@@ -20,6 +20,7 @@ export default defineConfig([
     splitting: false,
     treeshake: true,
     dts: false,
+    cjsInterop: true,
     tsconfig: "tsconfig.build.json",
   },
 ]);

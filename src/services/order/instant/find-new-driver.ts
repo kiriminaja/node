@@ -1,5 +1,5 @@
-import type { FindNewInstantDriverResponse } from "../../../types/order.responses.js";
-import { postJson } from "../../../http/request.js";
+import type { FindNewInstantDriverResponse } from "../../../types/order-responses";
+import { postJson } from "../../../http/request";
 
 export const findNewInstantDriver = (orderId: string) =>
     postJson<FindNewInstantDriverResponse>(

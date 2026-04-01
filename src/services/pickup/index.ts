@@ -1,4 +1,4 @@
-import { getPickupSchedules } from "./schedules.js";
+import { getPickupSchedules } from "./schedules";
 
 export const pickup = {
     schedules: getPickupSchedules,

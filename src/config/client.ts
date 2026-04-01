@@ -1,4 +1,4 @@
-import { KA_ENV_URL, KAEnv } from "./api.js";
+import { KA_ENV_URL, KAEnv } from "./api";
 
 export type FetchLike = (
     input: Parameters<typeof fetch>[0],

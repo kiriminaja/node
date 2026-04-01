@@ -1,5 +1,5 @@
-import type { KAResponse } from "../../types/api-response.js";
-import { postJson } from "../../http/request.js";
+import type { KAResponse } from "../../types/api-response";
+import { postJson } from "../../http/request";
 
 export type PricingExpressPayload = {
     origin: number;

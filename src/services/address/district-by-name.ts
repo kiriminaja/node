@@ -1,5 +1,5 @@
-import type { DistrictByNameResponse } from "../../types/coverage-area.responses.js";
-import { postJson } from "../../http/request.js";
+import type { DistrictByNameResponse } from "../../types/coverage-area-responses";
+import { postJson } from "../../http/request";
 
 export const getDistrictsByName = (search: string) => {
     return postJson<DistrictByNameResponse>(

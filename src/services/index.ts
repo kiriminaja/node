@@ -1,9 +1,9 @@
-import { address } from "./address/index.js";
-import { coverageArea } from "./coverage-area/index.js";
-import { order } from "./order/index.js";
-import { pickup } from "./pickup/index.js";
-import { payment } from "./payment/index.js";
-import { courier } from "./courier/index.js";
+import { address } from "./address/index";
+import { coverageArea } from "./coverage-area/index";
+import { order } from "./order/index";
+import { pickup } from "./pickup/index";
+import { payment } from "./payment/index";
+import { courier } from "./courier/index";
 
 export const services = {
     address,

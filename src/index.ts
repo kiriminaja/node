@@ -1,6 +1,6 @@
-import { KAEnv } from "./config/api.js";
-import { init } from "./config/client.js";
-import { services } from "./services/index.js";
+import { KAEnv } from "./config/api";
+import { init } from "./config/client";
+import { services } from "./services/index";
 
 export { KAEnv };
 
