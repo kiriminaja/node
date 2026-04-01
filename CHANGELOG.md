@@ -1,6 +1,27 @@
 # Changelog
 
 
+## v0.1.7
+
+[compare changes](https://github.com/kiriminaja/node/compare/v0.1.6...v0.1.7)
+
+### 🚀 Enhancements
+
+- Initialize Nitro project with basic configuration and routing ([10bf26b](https://github.com/kiriminaja/node/commit/10bf26b))
+
+### 💅 Refactors
+
+- Update import paths to include file extensions and reorganize type definitions ([d83c1a8](https://github.com/kiriminaja/node/commit/d83c1a8))
+
+### 🏡 Chore
+
+- Update package.json to remove local dependency and clean up tsup config ([da875ef](https://github.com/kiriminaja/node/commit/da875ef))
+- Update dependencies and improve TypeScript configuration ([1b37d56](https://github.com/kiriminaja/node/commit/1b37d56))
+
+### ❤️ Contributors
+
+- Yanuar Aditia ([@ngalor](https://github.com/ngalor))
+
 ## v0.1.6
 
 [compare changes](https://github.com/kiriminaja/node/compare/v0.1.5...v0.1.6)
