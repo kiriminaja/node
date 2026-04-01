@@ -1,6 +1,27 @@
 # Changelog
 
 
+## v0.1.9
+
+[compare changes](https://github.com/kiriminaja/node/compare/v0.1.8...v0.1.9)
+
+### 🚀 Enhancements
+
+- Add path aliasing and update build process ([460f7c8](https://github.com/kiriminaja/node/commit/460f7c8))
+
+### 💅 Refactors
+
+- Update import statements to remove file extensions and improve code consistency; delete unused response types ([8e7093d](https://github.com/kiriminaja/node/commit/8e7093d))
+- Update package configuration and build process ([3b21342](https://github.com/kiriminaja/node/commit/3b21342))
+
+### 🏡 Chore
+
+- Update typescript version to ^6.0.2 in package.json and bun.lock ([77aba83](https://github.com/kiriminaja/node/commit/77aba83))
+
+### ❤️ Contributors
+
+- Yanuar Aditia ([@ngalor](https://github.com/ngalor))
+
 ## v0.1.8
 
 [compare changes](https://github.com/kiriminaja/node/compare/v0.1.7...v0.1.8)
