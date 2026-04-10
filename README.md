@@ -122,11 +122,8 @@ await KiriminAja.order.express.track("AWB123456");
 // Cancel
 await KiriminAja.order.express.cancel("AWB123456", "Customer request");
 
-// Request pickup (v5)
-await KiriminAja.order.express.requestPickupV5(payload);
-
-// Request pickup (v6.1)
-await KiriminAja.order.express.requestPickupV61(payload);
+// Request pickup
+await KiriminAja.order.express.requestPickup(payload);
 ```
 
 ---

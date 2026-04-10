@@ -216,29 +216,12 @@ describe("KiriminAja singleton init + services", () => {
         );
     });
 
-    it("calls express request pickup v5 endpoint with JSON payload", async () => {
+    it("calls express request pickup endpoint with JSON payload", async () => {
         const { fetchMock, calls } = createMockFetch();
         KiriminAja.init({ env: KAEnv.SANDBOX, fetch: fetchMock });
 
         const payload = { foo: "bar" };
-        await KiriminAja.order.express.requestPickupV5(payload);
-
-        expect(String(calls[0]?.input)).toContain(
-            "/api/mitra/v5/request_pickup",
-        );
-        expect(calls[0]?.init?.method).toBe("POST");
-        expect(getHeader(calls[0]?.init, "Content-Type")).toBe(
-            "application/json",
-        );
-        expect(calls[0]?.init?.body).toBe(JSON.stringify(payload));
-    });
-
-    it("calls express request pickup v6.1 endpoint with JSON payload", async () => {
-        const { fetchMock, calls } = createMockFetch();
-        KiriminAja.init({ env: KAEnv.SANDBOX, fetch: fetchMock });
-
-        const payload = { baz: 123 };
-        await KiriminAja.order.express.requestPickupV61(payload);
+        await KiriminAja.order.express.requestPickup(payload);
 
         expect(String(calls[0]?.input)).toContain(
             "/api/mitra/v6.1/request_pickup",

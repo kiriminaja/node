@@ -1,7 +1,6 @@
 import {
     cancelExpressOrder,
-    requestPickupV5,
-    requestPickupV61,
+    requestPickup,
     trackExpressOrder,
 } from "./express";
 import {
@@ -15,8 +14,7 @@ export const order = {
     express: {
         track: trackExpressOrder,
         cancel: cancelExpressOrder,
-        requestPickupV5,
-        requestPickupV61,
+        requestPickup,
     },
     instant: {
         create: createInstantPickup,
