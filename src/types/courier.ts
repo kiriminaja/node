@@ -44,3 +44,9 @@ export type SetCourierPreferenceResponse = KAResponse<never> & {
     method: "set_whitelist_services";
     text: "Success to set";
 };
+
+export enum InstantService {
+    GrabExpress = "grab_express",
+    GoSend = "gosend",
+    Borzo = "borzo",
+}

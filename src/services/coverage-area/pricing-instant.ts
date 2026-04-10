@@ -1,8 +1,9 @@
 import type { KAResponse } from "../../types/api-response";
 import { postJson } from "../../http/request";
+import type { InstantService } from "@/types/courier";
 
 export type PricingInstantPayload = {
-    service: string[];
+    service: InstantService[];
     item_price: number;
     origin: {
         lat: number;
@@ -15,7 +16,7 @@ export type PricingInstantPayload = {
         address: string;
     };
     weight: number;
-    vehicle: string;
+    vehicle: "motor" | "mobil";
     timezone: string;
 };
 
