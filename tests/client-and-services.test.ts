@@ -2,6 +2,7 @@ import { describe, expect, it } from "bun:test";
 import KiriminAja, { KAEnv } from "../src/index";
 import type { FetchLike } from "../src/config/client";
 import { KA_ENV_URL } from "../src/config/api";
+import { InstantService } from "../src/types/courier";
 
 type FetchCall = {
     input: string | URL | Request;
@@ -165,12 +166,12 @@ describe("KiriminAja singleton init + services", () => {
         KiriminAja.init({ env: KAEnv.SANDBOX, fetch: fetchMock });
 
         const payload = {
-            service: ["instant"],
+            service: [InstantService.GrabExpress],
             item_price: 10000,
             origin: { lat: -6.2, long: 106.8, address: "A" },
             destination: { lat: -6.21, long: 106.81, address: "B" },
             weight: 1000,
-            vehicle: "bike",
+            vehicle: "motor" as const,
             timezone: "Asia/Jakarta",
         };
 

@@ -8,6 +8,7 @@
     "ignoreDeprecations": "6.0",
     "jsx": "react-jsx",
     "allowJs": true,
+    "types": ["bun"],
 
     // Bundler mode
     "moduleResolution": "bundler",
@@ -31,5 +32,7 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "noPropertyAccessFromIndexSignature": false
-  }
+  },
+  "include": ["src/**/*.ts", "tests/**/*.ts"],
+  "exclude": ["playground", "node_modules", "dist"]
 }
