@@ -50,3 +50,8 @@ export enum InstantService {
     GoSend = "gosend",
     Borzo = "borzo",
 }
+
+export enum InstantVehicle {
+    Bike = "motor",
+    Car = "mobil",
+}

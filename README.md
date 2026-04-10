@@ -106,7 +106,7 @@ await KiriminAja.coverageArea.pricingInstant({
     origin: { lat: -6.2, long: 106.8, address: "Jl. Sudirman No.1" },
     destination: { lat: -6.21, long: 106.81, address: "Jl. Thamrin No.5" },
     weight: 1000,
-    vehicle: "motor" as const,
+    vehicle: "motor",
     timezone: "Asia/Jakarta",
 });
 ```
@@ -123,7 +123,33 @@ await KiriminAja.order.express.track("AWB123456");
 await KiriminAja.order.express.cancel("AWB123456", "Customer request");
 
 // Request pickup
-await KiriminAja.order.express.requestPickup(payload);
+await KiriminAja.order.express.requestPickup({
+    address: "Jl. Jodipati No.29",
+    phone: "08133345678",
+    name: "Tokotries",
+    kecamatan_id: 548,
+    schedule: "2021-11-30 22:00:00",
+    packages: [
+        {
+            order_id: "YGL-000000019",
+            destination_name: "Flag Test",
+            destination_phone: "082223323333",
+            destination_address: "Jl. Magelang KM 11",
+            destination_kecamatan_id: 548,
+            weight: 520,
+            width: 8,
+            length: 8,
+            height: 8,
+            item_value: 275000,
+            shipping_cost: 65000,
+            service: "jne",
+            service_type: "REG23",
+            cod: 0,
+            package_type_id: 7,
+            item_name: "TEST Item name",
+        },
+    ],
+});
 ```
 
 ---
@@ -132,7 +158,35 @@ await KiriminAja.order.express.requestPickup(payload);
 
 ```ts
 // Create instant pickup
-await KiriminAja.order.instant.create(payload);
+await KiriminAja.order.instant.create({
+    service: "gosend",
+    service_type: "instant",
+    vehicle: "motor",
+    order_prefix: "BDI",
+    packages: [
+        {
+            origin_name: "Rizky",
+            origin_phone: "081280045616",
+            origin_lat: -7.854584,
+            origin_long: 110.331154,
+            origin_address: "Wirobrajan, Yogyakarta",
+            origin_address_note: "Dekat Kantor",
+            destination_name: "Okka",
+            destination_phone: "081280045616",
+            destination_lat: -7.776192,
+            destination_long: 110.325053,
+            destination_address: "Godean, Sleman",
+            destination_address_note: "Dekat Pasar",
+            shipping_price: 34000,
+            item: {
+                name: "Barang 1",
+                description: "Barang 1 Description",
+                price: 20000,
+                weight: 1000,
+            },
+        },
+    ],
+});
 
 // Find a new driver for an existing order
 await KiriminAja.order.instant.findNewDriver(orderId);
