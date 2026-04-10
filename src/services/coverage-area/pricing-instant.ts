@@ -23,8 +23,5 @@ export type PricingInstantPayload = {
 export const getPricingInstant = <T = unknown>(
     payload: PricingInstantPayload,
 ) => {
-    return postJson<KAResponse<unknown>>(
-        "/api/mitra/v4/instant/pricing",
-        payload,
-    );
+    return postJson<KAResponse<T>>("/api/mitra/v4/instant/pricing", payload);
 };

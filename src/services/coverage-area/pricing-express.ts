@@ -13,8 +13,5 @@ export type PricingExpressPayload = {
 export const getPricingExpress = <T = unknown>(
     payload: PricingExpressPayload,
 ) => {
-    return postJson<KAResponse<unknown>>(
-        "/api/mitra/v6.1/shipping_price",
-        payload,
-    );
+    return postJson<KAResponse<T>>("/api/mitra/v6.1/shipping_price", payload);
 };
