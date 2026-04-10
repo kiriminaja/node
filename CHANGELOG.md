@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v0.1.10
+
+[compare changes](https://github.com/kiriminaja/node/compare/v0.1.9...v0.1.10)
+
+### 🩹 Fixes
+
+- Converting into vite since tsdown config not match our build expectations ([440397d](https://github.com/kiriminaja/node/commit/440397d))
+
+### ❤️ Contributors
+
+- Yanuar Aditia ([@ngalor](https://github.com/ngalor))
+
 ## v0.1.9
 
 [compare changes](https://github.com/kiriminaja/node/compare/v0.1.8...v0.1.9)
