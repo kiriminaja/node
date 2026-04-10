@@ -1,6 +1,39 @@
 # Changelog
 
 
+## v1.1.0
+
+[compare changes](https://github.com/kiriminaja/node/compare/v0.1.10...v1.1.0)
+
+### 🚀 Enhancements
+
+- Add GitHub Actions workflow for testing and building ([ce4f783](https://github.com/kiriminaja/node/commit/ce4f783))
+- Enhance CI workflow with matrix testing for Bun and Node.js ([c2525e7](https://github.com/kiriminaja/node/commit/c2525e7))
+- Update PricingInstantPayload to use InstantService type and define vehicle options ([68566e5](https://github.com/kiriminaja/node/commit/68566e5))
+- Update service type in test and adjust vehicle option for instant service ([d248e25](https://github.com/kiriminaja/node/commit/d248e25))
+
+### 🩹 Fixes
+
+- Back to bun only ([98804bd](https://github.com/kiriminaja/node/commit/98804bd))
+- Update getPricingExpress and getPricingInstant to use generic type for KAResponse ([bdb7774](https://github.com/kiriminaja/node/commit/bdb7774))
+- Update service and vehicle options in pricingInstant example in README ([c18be46](https://github.com/kiriminaja/node/commit/c18be46))
+
+### 💅 Refactors
+
+- Consolidate request pickup methods into a single endpoint ([1c757b5](https://github.com/kiriminaja/node/commit/1c757b5))
+
+### 🏡 Chore
+
+- Update version to 1.0.0 and bump @types/node to ^25.6.0 ([703fba0](https://github.com/kiriminaja/node/commit/703fba0))
+
+### 🎨 Styles
+
+- Format tsconfig.json for improved readability ([0f1ed96](https://github.com/kiriminaja/node/commit/0f1ed96))
+
+### ❤️ Contributors
+
+- Yanuar Aditia ([@ngalor](https://github.com/ngalor))
+
 ## v0.1.10
 
 [compare changes](https://github.com/kiriminaja/node/compare/v0.1.9...v0.1.10)
