@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v1.2.0
+
+[compare changes](https://github.com/kiriminaja/node/compare/v1.1.0...v1.2.0)
+
+### 🚀 Enhancements
+
+- Enhance request pickup and instant creation with detailed payload structures ([c678397](https://github.com/kiriminaja/node/commit/c678397))
+
+### ❤️ Contributors
+
+- Yanuar Aditia ([@ngalor](https://github.com/ngalor))
+
 ## v1.1.0
 
 [compare changes](https://github.com/kiriminaja/node/compare/v0.1.10...v1.1.0)
