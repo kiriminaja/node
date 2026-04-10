@@ -101,12 +101,12 @@ await KiriminAja.coverageArea.pricingExpress({
 
 // Instant (same-day) rates
 await KiriminAja.coverageArea.pricingInstant({
-    service: ["instant"],
+    service: [InstantService.GrabExpress],
     item_price: 10000,
     origin: { lat: -6.2, long: 106.8, address: "Jl. Sudirman No.1" },
     destination: { lat: -6.21, long: 106.81, address: "Jl. Thamrin No.5" },
     weight: 1000,
-    vehicle: "bike",
+    vehicle: "motor" as const,
     timezone: "Asia/Jakarta",
 });
 ```
@@ -259,11 +259,11 @@ Calls made without `{ apiKey }` fall back to the key set in `defineKiriminAjaPlu
 
 Besides `apiKey`, `useKiriminAja()` also accepts `env` and `baseUrl` to override the config set by the plugin — useful for internal proxies, staging servers, or switching environments per-request.
 
-| Option    | Type    | Description                                       |
-| --------- | ------- | ------------------------------------------------- |
-| `apiKey`  | `string` | Override the Authorization header                 |
+| Option    | Type     | Description                                           |
+| --------- | -------- | ----------------------------------------------------- |
+| `apiKey`  | `string` | Override the Authorization header                     |
 | `env`     | `KAEnv`  | Switch between `KAEnv.SANDBOX` and `KAEnv.PRODUCTION` |
-| `baseUrl` | `string` | Point all requests to a custom URL                |
+| `baseUrl` | `string` | Point all requests to a custom URL                    |
 
 ```ts
 // Route requests through an internal proxy
