@@ -3,7 +3,10 @@ import { postJson } from "../../http/request";
 import type { InstantService } from "@/types/courier";
 
 export type PricingInstantPayload = {
-    service: InstantService[];
+    /**
+     * @description Use string for custom courier codes that not provided in InstantService enum
+     */
+    service: (InstantService | string)[];
     item_price: number;
     origin: {
         lat: number;

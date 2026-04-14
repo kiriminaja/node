@@ -96,7 +96,7 @@ await KiriminAja.coverageArea.pricingExpress({
     weight: 1000, // grams
     item_value: 50000,
     insurance: 0,
-    courier: ["jne", "jnt"],
+    courier: [ExpressService.JNE, "other"],
 });
 
 // Instant (same-day) rates

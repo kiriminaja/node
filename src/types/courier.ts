@@ -55,3 +55,22 @@ export enum InstantVehicle {
     Bike = "motor",
     Car = "mobil",
 }
+
+export enum ExpressService {
+    Tiki = "tiki",
+    Pos = "posindonesia",
+    Paxel = "paxel",
+    Ninja = "ninja",
+    RPX = "rpx",
+    LionParcel = "lion",
+    JTCargo = "jtcargo",
+    SentralCargo = "sentral",
+    AnterAja = "anteraja",
+    NCS = "ncs",
+    Sicepat = "sicepat",
+    SAP = "sap",
+    IDExpress = "idx",
+    JNE = "jne",
+    JNT = "jnt",
+    SPX = "spx",
+}

@@ -2,7 +2,14 @@ import { describe, expect, it } from "bun:test";
 import KiriminAja, { KAEnv } from "../src/index";
 import type { FetchLike } from "../src/config/client";
 import { KA_ENV_URL } from "../src/config/api";
-import { InstantService, InstantVehicle } from "../src/types/courier";
+import {
+    ExpressService,
+    InstantService,
+    InstantVehicle,
+} from "../src/types/courier";
+import type { PricingExpressPayload } from "@/services/coverage-area/pricing-express";
+import type { InstantPickupPayload } from "@/types/order";
+import type { PricingInstantPayload } from "@/services/coverage-area/pricing-instant";
 
 type FetchCall = {
     input: string | URL | Request;
@@ -140,13 +147,13 @@ describe("KiriminAja singleton init + services", () => {
         const { fetchMock, calls } = createMockFetch();
         KiriminAja.init({ env: KAEnv.SANDBOX, fetch: fetchMock });
 
-        const payload = {
+        const payload: PricingExpressPayload = {
             origin: 1,
             destination: 2,
             weight: 1000,
             item_value: 5000,
             insurance: 0,
-            courier: ["jne"],
+            courier: [ExpressService.JNE, "other"],
         };
 
         await KiriminAja.coverageArea.pricingExpress(payload);
@@ -165,13 +172,13 @@ describe("KiriminAja singleton init + services", () => {
         const { fetchMock, calls } = createMockFetch();
         KiriminAja.init({ env: KAEnv.SANDBOX, fetch: fetchMock });
 
-        const payload = {
-            service: [InstantService.GrabExpress],
+        const payload: PricingInstantPayload = {
+            service: [InstantService.GrabExpress, "other"],
             item_price: 10000,
             origin: { lat: -6.2, long: 106.8, address: "A" },
             destination: { lat: -6.21, long: 106.81, address: "B" },
             weight: 1000,
-            vehicle: "motor" as const,
+            vehicle: InstantVehicle.Bike,
             timezone: "Asia/Jakarta",
         };
 
@@ -275,7 +282,7 @@ describe("KiriminAja singleton init + services", () => {
         const { fetchMock, calls } = createMockFetch();
         KiriminAja.init({ env: KAEnv.SANDBOX, fetch: fetchMock });
 
-        const payload = {
+        const payload: InstantPickupPayload = {
             service: InstantService.GoSend,
             service_type: "instant",
             vehicle: InstantVehicle.Bike,

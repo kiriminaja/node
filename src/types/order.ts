@@ -64,7 +64,10 @@ export interface InstantPickupPackage {
 }
 
 export interface InstantPickupPayload {
-    service: InstantService;
+    /**
+     * @description Use string for custom courier codes that not provided in InstantService enum
+     */
+    service: InstantService | string;
     service_type: string;
     vehicle: InstantVehicle;
     order_prefix: string;
