@@ -11,7 +11,7 @@
         "type": "git",
         "url": "https://github.com/kiriminaja/node.git"
     },
-    "author": "Kiriminaja Team <team@kiriminaja.com>",
+    "author": "Kiriminaja Team <tech@kiriminaja.com>",
     "exports": {
         ".": {
             "import": {
