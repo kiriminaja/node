@@ -259,6 +259,23 @@ const res = await KiriminAja.credit.balance();
 // res.data.balance -> number
 ```
 
+### Utilities — Volumetric
+
+Estimate the smallest bounding box (length / width / height) for a
+multi-item package by trying three stacking strategies and returning the
+arrangement with the smallest volume.
+
+```ts
+import { Volumetric } from "kiriminaja";
+// or: import { calculate } from "kiriminaja";
+
+const dim = Volumetric.calculate([
+    { qty: 2, length: 10, width: 10, height: 2 },
+    { qty: 1, length: 5,  width: 5,  height: 5 },
+]);
+// dim.length, dim.width, dim.height
+```
+
 ---
 
 ## Nuxt / Nitro (h3 Adapter)
