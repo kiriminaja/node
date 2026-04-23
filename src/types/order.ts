@@ -1,5 +1,21 @@
 import type { InstantService, InstantVehicle } from "./courier";
 
+export interface RequestPickupItemMetadata {
+    sku?: string;
+    variant_label?: string;
+}
+
+export interface RequestPickupItem {
+    name: string;
+    price: number;
+    qty: number;
+    weight: number;
+    width?: number;
+    length?: number;
+    height?: number;
+    metadata?: RequestPickupItemMetadata;
+}
+
 export interface RequestPickupPackage {
     order_id: string;
     destination_name: string;
@@ -21,6 +37,7 @@ export interface RequestPickupPackage {
     cod: number;
     package_type_id: number;
     item_name: string;
+    items?: RequestPickupItem[];
     drop?: boolean;
     note?: string;
 }

@@ -147,6 +147,23 @@ await KiriminAja.order.express.requestPickup({
             cod: 0,
             package_type_id: 7,
             item_name: "TEST Item name",
+            // `items` is optional. When provided, it lists the individual
+            // items inside the package. `item_value` is still required.
+            items: [
+                {
+                    name: "Kaos Polos",
+                    price: 125000,
+                    qty: 2,
+                    weight: 260,
+                    width: 4,
+                    length: 4,
+                    height: 4,
+                    metadata: {
+                        sku: "KP-001",
+                        variant_label: "Merah / L",
+                    },
+                },
+            ],
         },
     ],
 });
