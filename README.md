@@ -251,6 +251,16 @@ await KiriminAja.payment.getPayment(orderId);
 
 ---
 
+### Credit
+
+```ts
+// Get the current KiriminAja credit balance
+const res = await KiriminAja.credit.balance();
+// res.data.balance -> number
+```
+
+---
+
 ## Nuxt / Nitro (h3 Adapter)
 
 The `kiriminaja/adapters/h3` sub-package wraps `init()` into a Nitro server plugin and provides a `useKiriminAja()` composable for event handlers — no extra dependencies required.

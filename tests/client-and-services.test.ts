@@ -453,4 +453,17 @@ describe("KiriminAja singleton init + services", () => {
             JSON.stringify({ payment_id: "PAY123" }),
         );
     });
+
+    it("calls credit balance endpoint (GET /api/mitra/v6.2/credit/balance)", async () => {
+        const { fetchMock, calls } = createMockFetch();
+        KiriminAja.init({ env: KAEnv.SANDBOX, fetch: fetchMock });
+
+        await KiriminAja.credit.balance();
+
+        expect(String(calls[0]?.input)).toContain(
+            "/api/mitra/v6.2/credit/balance",
+        );
+        expect(calls[0]?.init?.method).toBe("GET");
+        expect(calls[0]?.init?.body).toBeUndefined();
+    });
 });
