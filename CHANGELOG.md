@@ -1,6 +1,28 @@
 # Changelog
 
 
+## v1.3.0
+
+[compare changes](https://github.com/kiriminaja/node/compare/v1.2.0...v1.3.0)
+
+### 🚀 Enhancements
+
+- **order:** Add optional items array to express request_pickup package ([acf86d7](https://github.com/kiriminaja/node/commit/acf86d7))
+- **credit:** Add credit balance API ([7ac7496](https://github.com/kiriminaja/node/commit/7ac7496))
+- **utils:** Add multi-item volumetric calculator ([d924483](https://github.com/kiriminaja/node/commit/d924483))
+
+### 🩹 Fixes
+
+- Update author email in package.json ([b612414](https://github.com/kiriminaja/node/commit/b612414))
+
+### 📖 Documentation
+
+- Add type declarations for courier service ([cb33334](https://github.com/kiriminaja/node/commit/cb33334))
+
+### ❤️ Contributors
+
+- Yanuar Aditia ([@ngalor](https://github.com/ngalor))
+
 ## v1.2.0
 
 [compare changes](https://github.com/kiriminaja/node/compare/v1.1.0...v1.2.0)
