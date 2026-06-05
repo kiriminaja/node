@@ -259,6 +259,45 @@ const res = await KiriminAja.credit.balance();
 // res.data.balance -> number
 ```
 
+---
+
+### AWB (Print Waybill)
+
+```ts
+// Print shipping label / waybill by AWB number(s)
+const res = await KiriminAja.awb.print({ awb: ["AWB123", "AWB456"] });
+// res.data.data.url -> PDF download URL
+```
+
+---
+
+### Calculations (COD)
+
+```ts
+// Calculate COD (Cash on Delivery) fee
+const res = await KiriminAja.calculations.cod({
+    item_price: 100000,
+    data: [
+        {
+            courier_code: "jne",
+            courier_service_code: "reg",
+            shipping_cost: 10000,
+        },
+    ],
+});
+// res.results[] -> array of fee breakdown per courier/service
+```
+
+---
+
+### Profile
+
+```ts
+// Get member profile and metadata
+const res = await KiriminAja.profile();
+// res.results.id, res.results.email, res.results.name, res.results.metadata
+```
+
 ### Utilities — Volumetric
 
 Estimate the smallest bounding box (length / width / height) for a
@@ -271,7 +310,7 @@ import { Volumetric } from "kiriminaja";
 
 const dim = Volumetric.calculate([
     { qty: 2, length: 10, width: 10, height: 2 },
-    { qty: 1, length: 5,  width: 5,  height: 5 },
+    { qty: 1, length: 5, width: 5, height: 5 },
 ]);
 // dim.length, dim.width, dim.height
 ```

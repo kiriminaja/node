@@ -466,4 +466,60 @@ describe("KiriminAja singleton init + services", () => {
         expect(calls[0]?.init?.method).toBe("GET");
         expect(calls[0]?.init?.body).toBeUndefined();
     });
+
+    it("calls calculations cod endpoint (POST /api/mitra/calculations/cod)", async () => {
+        const { fetchMock, calls } = createMockFetch();
+        KiriminAja.init({ env: KAEnv.SANDBOX, fetch: fetchMock });
+
+        const payload = {
+            item_price: 100000,
+            data: [
+                {
+                    courier_code: "jne",
+                    courier_service_code: "reg",
+                    shipping_cost: 10000,
+                },
+            ],
+        };
+
+        await KiriminAja.calculations.cod(payload);
+
+        expect(String(calls[0]?.input)).toContain(
+            "/api/mitra/calculations/cod",
+        );
+        expect(calls[0]?.init?.method).toBe("POST");
+        expect(getHeader(calls[0]?.init, "Content-Type")).toBe(
+            "application/json",
+        );
+        expect(calls[0]?.init?.body).toBe(JSON.stringify(payload));
+    });
+
+    it("calls profile endpoint (GET /api/mitra/v6.2/profile)", async () => {
+        const { fetchMock, calls } = createMockFetch();
+        KiriminAja.init({ env: KAEnv.SANDBOX, fetch: fetchMock });
+
+        await KiriminAja.profile();
+
+        expect(String(calls[0]?.input)).toContain(
+            "/api/mitra/v6.2/profile",
+        );
+        expect(calls[0]?.init?.method).toBe("GET");
+        expect(calls[0]?.init?.body).toBeUndefined();
+    });
+
+    it("calls awb print endpoint (POST /api/mitra/v6.1/awb/print)", async () => {
+        const { fetchMock, calls } = createMockFetch();
+        KiriminAja.init({ env: KAEnv.SANDBOX, fetch: fetchMock });
+
+        await KiriminAja.awb.print({ awb: ["AWB123", "AWB456"] });
+
+        expect(String(calls[0]?.input)).toContain(
+            "/api/mitra/v6.1/awb/print",
+        );
+        expect(calls[0]?.init?.method).toBe("POST");
+        expect(getHeader(calls[0]?.init, "Content-Type")).toBe(
+            "application/json",
+        );
+        expect(calls[0]?.init?.body).toBe(JSON.stringify({ awb: ["AWB123", "AWB456"] }));
+    });
 });
