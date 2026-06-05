@@ -1,6 +1,18 @@
 # Changelog
 
 
+## v1.4.0
+
+[compare changes](https://github.com/kiriminaja/node/compare/v1.3.0...v1.4.0)
+
+### 🚀 Enhancements
+
+- Add AWB print, COD calculation, and profile services ([ac411cf](https://github.com/kiriminaja/node/commit/ac411cf))
+
+### ❤️ Contributors
+
+- Yanuar ([@yan-ad](https://github.com/yan-ad))
+
 ## v1.3.0
 
 [compare changes](https://github.com/kiriminaja/node/compare/v1.2.0...v1.3.0)
