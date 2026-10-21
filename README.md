@@ -440,3 +440,55 @@ bun install      # install dependencies
 bun test         # run tests
 bun run build    # compile to dist/
 ```
+
+## Releasing to npm
+
+The `Release` workflow in `.github/workflows/release.yml` publishes stable `vX.Y.Z`
+tags to npm using [trusted publishing](https://docs.npmjs.com/trusted-publishers/).
+It verifies that the tag matches `package.json`, runs the typecheck, tests and
+build, then publishes the tested tarball. npm authentication uses GitHub OIDC;
+no `NPM_TOKEN` or npm login is needed in CI. npm generates provenance for this
+public package and repository automatically.
+
+### One-time npm setup
+
+An npm package owner must open the `kiriminaja` package's **Settings > Trusted
+publishing** on npmjs.com and add a **GitHub Actions** trusted publisher with:
+
+| Field | Value |
+| ----- | ----- |
+| Organization or user | `kiriminaja` |
+| Repository | `node` |
+| Workflow filename | `release.yml` |
+| Environment name | Leave blank; this workflow does not use a GitHub environment |
+| Allowed actions | Enable **Allow npm publish** for automatic, direct publication |
+
+New configurations allow staged publishing by default, so explicitly enabling
+`npm publish` is required. Complete the first successful publish within two days
+of creating the configuration; otherwise npm requires recreating it. After the
+first successful trusted publish, npm recommends enabling **Require two-factor
+authentication and disallow tokens** under **Publishing access**.
+
+### Publish a version
+
+From a clean `main` branch, prepare and push the next release with:
+
+```bash
+bun run release
+```
+
+This command bumps the version, updates the changelog, commits, tags, and pushes.
+It does not publish locally; pushing the tag starts the GitHub Actions workflow.
+
+For the already-prepared `1.5.0` version, after committing and pushing this
+workflow and configuring npm trust, create the matching tag without another bump:
+
+```bash
+git tag -a v1.5.0 -m "Release v1.5.0"
+git push origin refs/tags/v1.5.0
+```
+
+If a release fails before publication, fix the cause and rerun the workflow, or
+select **Actions > Release > Run workflow** and enter the existing tag. Do not
+move a published tag or try to publish an existing npm version again; publish a
+new version for subsequent fixes.

@@ -52,7 +52,7 @@
     },
     "private": false,
     "scripts": {
-        "release": "bun test && bun run build && changelogen --release && git push --follow-tags && npm publish --access=public",
+        "release": "bun run typecheck && bun test && bun run build && changelogen --release --clean --no-github && git push --atomic origin HEAD --follow-tags",
         "build": "bun run clean && vite build",
         "dev": "cd playground && bun dev",
         "clean": "rm -rf dist",

@@ -1,0 +1,113 @@
+name: Release
+
+on:
+    push:
+        tags:
+            - 'v[0-9]*.[0-9]*.[0-9]*'
+    workflow_dispatch:
+        inputs:
+            tag:
+                description: Existing stable version tag to publish (for example, v1.5.0)
+                required: true
+                type: string
+
+permissions:
+    contents: read
+
+concurrency:
+    group: release-${{ inputs.tag || github.ref_name }}
+    cancel-in-progress: false
+
+jobs:
+    verify:
+        runs-on: ubuntu-latest
+        outputs:
+            tag: ${{ steps.version.outputs.tag }}
+        steps:
+            - name: Validate release tag
+              id: version
+              env:
+                  RELEASE_TAG: ${{ inputs.tag || github.ref_name }}
+              run: |
+                  set -euo pipefail
+                  if [[ ! "$RELEASE_TAG" =~ ^v(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)\.(0|[1-9][0-9]*)$ ]]; then
+                      echo "Expected a stable version tag such as v1.5.0, got: $RELEASE_TAG" >&2
+                      exit 1
+                  fi
+                  echo "tag=$RELEASE_TAG" >> "$GITHUB_OUTPUT"
+
+            - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+              with:
+                  ref: refs/tags/${{ steps.version.outputs.tag }}
+                  persist-credentials: false
+
+            - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+              with:
+                  node-version: '24'
+                  package-manager-cache: false
+
+            - name: Verify tag matches package version
+              env:
+                  RELEASE_TAG: ${{ steps.version.outputs.tag }}
+              run: |
+                  node --input-type=module <<'NODE'
+                  import { readFileSync } from 'node:fs';
+                  const pkg = JSON.parse(readFileSync('package.json', 'utf8'));
+                  if (pkg.name !== 'kiriminaja' || pkg.private === true || `v${pkg.version}` !== process.env.RELEASE_TAG) {
+                      throw new Error(`Release tag ${process.env.RELEASE_TAG} must match public package kiriminaja@${pkg.version}`);
+                  }
+                  NODE
+
+            - uses: oven-sh/setup-bun@0c5077e51419868618aeaa5fe8019c62421857d6 # v2.2.0
+              with:
+                  bun-version: '1.4.2'
+                  no-cache: true
+
+            - name: Install dependencies
+              run: bun install --frozen-lockfile
+
+            - name: Typecheck
+              run: bun run typecheck
+
+            - name: Test
+              run: bun test
+
+            - name: Build
+              run: bun run build
+
+            - name: Pack tested build
+              run: |
+                  mkdir release
+                  npm pack --ignore-scripts --pack-destination release
+
+            - uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7
+              with:
+                  name: npm-package
+                  path: release/*.tgz
+                  if-no-files-found: error
+                  retention-days: 7
+
+    publish:
+        needs: verify
+        if: github.repository == 'kiriminaja/node'
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+            id-token: write
+        steps:
+            - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+              with:
+                  node-version: '24'
+                  registry-url: 'https://registry.npmjs.org'
+                  package-manager-cache: false
+
+            - name: Install npm with trusted-publishing support
+              run: npm install --global npm@11.21.0 --ignore-scripts
+
+            - uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
+              with:
+                  name: npm-package
+                  path: release
+
+            - name: Publish to npm using OIDC
+              run: npm publish release/*.tgz --access public --ignore-scripts --registry https://registry.npmjs.org
