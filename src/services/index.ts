@@ -8,6 +8,7 @@ import { pickup } from "./pickup/index";
 import { payment } from "./payment/index";
 import { profile } from "./profile/index";
 import { courier } from "./courier/index";
+import { preference } from "./preference/index";
 
 export const services = {
     address,
@@ -20,4 +21,5 @@ export const services = {
     payment,
     profile,
     courier,
+    preference,
 };
