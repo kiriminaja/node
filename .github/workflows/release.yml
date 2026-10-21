@@ -110,4 +110,4 @@ jobs:
                   path: release
 
             - name: Publish to npm using OIDC
-              run: npm publish release/*.tgz --access public --ignore-scripts --registry https://registry.npmjs.org
+              run: npm publish ./release/*.tgz --access public --ignore-scripts --registry https://registry.npmjs.org

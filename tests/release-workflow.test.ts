@@ -68,7 +68,7 @@ describe("trusted npm release workflow", () => {
         expect(source).not.toContain("secrets.NPM_TOKEN");
         expect(source).not.toContain("NODE_AUTH_TOKEN:");
         const publish = workflow.jobs.publish.steps.find(step => step.name === "Publish to npm using OIDC");
-        expect(publish?.run).toContain("npm publish release/*.tgz");
+        expect(publish?.run).toContain("npm publish ./release/*.tgz");
         expect(publish?.run).toContain("--ignore-scripts");
         expect(pkg.scripts.release).not.toContain("npm publish");
     });
